@@ -15,7 +15,7 @@ var userSchema = new mongoose.Schema({
     required: true
   },
   password: { type: String, required: true },
-  location: { type: String, default: "Eastern"}
+  location: { type: String, default: "Eastern"},
   myItem: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
 },
 { timestamps: true }
@@ -28,15 +28,15 @@ var itemSchema = new mongoose.Schema({
   itemDescription: String,
   itemCondition: {
     type: String,
-    enum : ['NEW','New(Other)', 'Used', 'For parts or not working'],
+    enum : ['NEW','New(Other)', 'Used', 'For Parts or Not Working'],
     required: true
-  }
+  },
   itemImage: String,
-  itemReview: type: Number,
+  itemReview: Number,
   isItemSold: {
     type: Boolean,
     default: false
-  }
+  },
   timeofSold: {
     type: Date,
     default: Date.now
@@ -51,7 +51,5 @@ var Item = mongoose.model("Item", itemSchema);
 
 module.exports = {
   User: User,
-  Item: Item,
-  Usernotification: Usernotification,
-  Report: Report
+  Item: Item
 };

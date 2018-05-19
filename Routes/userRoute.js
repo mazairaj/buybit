@@ -4,36 +4,10 @@ var router = express.Router();
 var bcrypt = require('bcryptjs');
 var passport = require('passport');
 
-var User= require('../models/models').User;
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-
-      UserDetails.findOne({
-        username: username
-      }, function(err, user) {
-        if (err) {
-          return done(err);
-        }
-
-        if (!user) {
-          res.send("Not User Existed")
-          return done(null, false);
-        }
-        bcrypt.compare(password, user.password, function(err, res) {
-        if (err) return done(err);
-            if (res === false) {
-              return done(null, false);
-            } else {
-              return done(null, user);
-            }
-        });
-      });
-  }
-));
+var User = require('./Models/models').User;
 
 router.post('/login',
-  passport.authenticate('local'), {},
+  passport.authenticate('local'),
   function(req, res) {
     res.send(req.user)
   });

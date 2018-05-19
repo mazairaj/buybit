@@ -10,7 +10,6 @@ mongoose.connect(connect);
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-const compression = require('compression');
 
 //linking the different routes
 const userRoute = require('./Routes/userRoute');
@@ -25,16 +24,45 @@ app.use(require('express-session')({
     saveUninitialized: false
 }));
 
-
 /*  PASSPORT SETUP  */
 app.use(passport.initialize());
 app.use(passport.session());
 
 // passport config
-const User = require('./Routes/Models').User;
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+var User = require('./Routes/Models/models').User;
+passport.use(new LocalStrategy(
+  function(email, password, done) {
+      User.findOne({
+        email: email
+      }, function(err, user) {
+        if (err) {
+          return done(err);
+        }
+
+        if (!user) {
+          res.send("Not User Existed")
+          return done(null, false);
+        }
+        bcrypt.compare(password, user.password, function(err, res) {
+        if (err) return done(err);
+            if (res === false) {
+              return done(null, false);
+            } else {
+              return done(null, user);
+            }
+        });
+      });
+  }
+));
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  models.User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 app.use('/', userRoute);
 app.use('/', itemRoute);
