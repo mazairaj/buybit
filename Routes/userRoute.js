@@ -1,75 +1,63 @@
 var express = require('express');
 var router = express.Router();
-// Encrypting password
-var bcrypt = require('bcryptjs');
-var passport = require('passport');
 
+var passport = require('passport');
 var User = require('./Models/models').User;
 
-router.post('/login',
-  passport.authenticate('local'),
-  function(req, res) {
-    res.send(req.user)
-  });
+router.post('/login', function(req, res, next) {
+  /* look at the 2nd parameter to the below call */
+  passport.authenticate('local-login', function(err, user, info) {
+    if (err) { return next(err); }
+    if (!user) { 
+        console.log("no user")
+        return null
+    }
+    
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      res.send(user)
+      return null;
+    });
+  })(req, res, next);
+});
 
 // POST registration page
 var validateReq = function(userData) {
-return (userData.password === userData.passwordRepeat);
+    return (userData.password === userData.passwordRepeat);
 };
 
 router.post('/signup', function(req, res) {
-    // this is for checking if each field is blank, but I think this should be done in the front end to make user experiment faster and cleaner
-    // var fields = ['firstName', 'lastName', 'email', 'password', 'passwordRepeat']
-    // for (var i = 0; i < fields.length; i++) {
-    //   var field = fields[i];
-    //   if (! req.body[field]) {
-    //     res.status(400).render('signup', {
-    //       error: field + ' is required.'
-    //     });
-    //     return;
-    //   }
-    // }
-    User.findOne({_id: req.body.userID}, function(err, user) {
-            if (err) {
-                return {err, user}
+    User.findOne({'email': req.body.email}, function(err, user) {        
+        if(err != null) {
+            res.status(err.code >= 100 && err.code < 600 ? err.code : 500).send(user)
+            return err;
+        }
+
+        if (user) {
+            res.json({success: false});
+            return "User already exist"
+        } else {
+            // validation step
+            console.log(validateReq(req.body))
+            if (!validateReq(req.body)) {
+                return (err, null);
             }
-            if (user) {
-                return "User already exist"
-            } else {
-                // validation step
-                if (!validateReq(req.body)) {
-                    return done(err, null);
-                }
+            // create the user
+            var newUser = new User();
+            // set the user's local credentials
+            newUser.firstName = req.body.firstName;
+            newUser.lastName = req.body.lastName;
+            newUser.email = req.body.email;
+            newUser.password = newUser.generateHash(req.body.password);
 
-                bcrypt.genSalt(10, function(err, salt) {
-                    if (err) return next(err);
-                    bcrypt.hash(req.body.password, salt, function(err, hash) {
-                      if (err) return next(err);
-                        var newPassword = hash; // Or however suits your setup
-
-                        var newUser = new models.User({
-                          firstName: req.body.firstName,
-                          lastName: req.body.lastName,
-                          email: req.body.email,
-                          password: newPassword
-                        });
-
-                        newUser.save(function(err, user) {
-                        if (err) {
-                          if (err.errmsg.indexOf('E11000') > -1) {
-                            err = 'email is already taken: ' + req.body.email;
-                          } else {
-                            err = err.errmsg;
-                          }
-                          return done(err, null);
-                        } 
-                        console.log(user);
-                        res.send(user)
-                        return done(err, null);
-                    });
-                    });
-                });
-            }
+            newUser.save(function(err, user) {
+                if (err) 
+                    return (err, null);
+                console.log(user);
+                res.send(user)
+                return (err, null);
+            });
+        } 
     });
 });
 

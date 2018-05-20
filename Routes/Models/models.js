@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var bcrypt = require('bcryptjs');
 
 var userSchema = new mongoose.Schema({
   //How can we keep track of User Activity?
@@ -14,7 +15,7 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  password: { type: String, required: true },
+  password: { type: String },
   location: { type: String, default: "Eastern"},
   myItem: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
 },
@@ -44,6 +45,17 @@ var itemSchema = new mongoose.Schema({
 },
 { timestamps: true }
 );
+
+// methods ======================
+// generating a hash
+userSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+// checking if password is valid
+userSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
 
 
 var User = mongoose.model("User", userSchema);

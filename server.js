@@ -30,27 +30,29 @@ app.use(passport.session());
 
 // passport config
 var User = require('./Routes/Models/models').User;
-passport.use(new LocalStrategy(
-  function(email, password, done) {
-      User.findOne({
-        email: email
-      }, function(err, user) {
-        if (err) {
+passport.use('local-login', new LocalStrategy({
+        // by default, local strategy uses username and password
+        usernameField : 'email',
+        passwordField : 'password',
+        passReqToCallback : true
+  },
+  function(req, email, password, done) {
+      User.findOne({'email': req.body.email}, function(err, user) {
+        console.log('In User Login')
+        if (err) 
           return done(err);
-        }
 
         if (!user) {
-          res.send("Not User Existed")
+          console.log("no user!!!")
           return done(null, false);
         }
-        bcrypt.compare(password, user.password, function(err, res) {
-        if (err) return done(err);
-            if (res === false) {
-              return done(null, false);
-            } else {
-              return done(null, user);
-            }
-        });
+
+        if(!user.validPassword(password)){
+          console.log("wrong password")
+          return done(null, false);
+        }
+        
+        return done(null, user);
       });
   }
 ));
