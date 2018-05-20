@@ -53,6 +53,7 @@ router.post('/signup', function(req, res) {
             newUser.save(function(err, user) {
                 if (err) 
                     return (err, null);
+
                 console.log(user);
                 res.send(user)
                 return (err, null);

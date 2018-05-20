@@ -4,7 +4,6 @@ const Environment = require('../Environment.js')
 export function login(userObject) {
     return dispatch => {
         dispatch(attempt());
-
     	fetch(Enviroment.SERVER + 'login', {
     		method: 'POST',
     		headers: {
