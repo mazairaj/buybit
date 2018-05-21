@@ -24,6 +24,10 @@ var userSchema = new mongoose.Schema({
 
 var itemSchema = new mongoose.Schema({
   itemCreator: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+  itemID: {
+    type: Number,
+    required: true
+  },
   itemTitle: String,
   itemPrice: { type: Number, required: true },
   itemDescription: String,
