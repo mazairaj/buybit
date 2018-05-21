@@ -43,3 +43,5 @@ router.post('/buyItemTest', function(req, res) {
     	});
     });
 });
+
+module.exports = router;

@@ -1,6 +1,13 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
+// constants
+var enu = {
+  values: ['Service' ,'New','New(Other)', 'Used','For Parts or Not Working'],
+  message: 'Status is required'
+}
+
+
 var userSchema = new mongoose.Schema({
   //How can we keep track of User Activity?
   firstName: {
@@ -31,7 +38,8 @@ var itemSchema = new mongoose.Schema({
   itemDescription: String,
   itemCondition: {
     type: String,
-    enum : ['Service' ,'NEW','New(Other)', 'Used','For Parts or Not Working'],
+    enum : enu,
+    trim: true,
     required: true
   },
   itemImage: String,
@@ -42,7 +50,6 @@ var itemSchema = new mongoose.Schema({
   },
   timeofSold: {
     type: Date,
-    default: Date.now
   }
 },
 { timestamps: true }
@@ -62,7 +69,7 @@ userSchema.methods.validPassword = function(password) {
 // updating the time sold
 itemSchema.pre('save', function preSave(next){
   var item = this;
-  this.timeofSold(Date.now());
+  this.timeofSold = Date.now();
   next()
 });
 
