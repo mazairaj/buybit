@@ -49,9 +49,37 @@ export function signup(userObject) {
     };
 }
 
+export function update(userObject) {
+    return dispatch => {
+        fetch(Enviroment.SERVER + 'updateUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                userObject: userObject
+            }).then((response) => response.json())
+            .then((responseJson) => {
+                var userObject = Object.assign({}, responseJson);
+                dispatch(updateUser(userObject));
+            })
+            .catch((err) => {
+                dispatch(errors(err))
+            });
+        })
+    };
+}
+
 export function logout() {
     return {
         type: 'LOGOUT'
+    };
+}
+
+export function updateUser(userObject){
+    return {
+        type: 'USER_UPDATE',
+        userObject
     };
 }
 

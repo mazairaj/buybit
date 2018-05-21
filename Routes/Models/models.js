@@ -18,6 +18,8 @@ var userSchema = new mongoose.Schema({
   password: { type: String },
   location: { type: String, default: "Eastern"},
   myItem: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
+  ethWallet: { type: String},
+  ethAmount: {type: Number}
 },
 { timestamps: true }
 );
@@ -33,7 +35,7 @@ var itemSchema = new mongoose.Schema({
   itemDescription: String,
   itemCondition: {
     type: String,
-    enum : ['NEW','New(Other)', 'Used', 'For Parts or Not Working'],
+    enum : ['Service' ,'NEW','New(Other)', 'Used','For Parts or Not Working'],
     required: true
   },
   itemImage: String,
@@ -61,6 +63,12 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
+// updating the time sold
+itemSchema.pre('save', function preSave(next){
+  var item = this;
+  this.timeofSold(Date.now());
+  next()
+});
 
 var User = mongoose.model("User", userSchema);
 var Item = mongoose.model("Item", itemSchema);

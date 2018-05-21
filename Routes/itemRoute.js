@@ -22,7 +22,6 @@ router.post('/createItem', function(req, res){
     newItem.save(function(err, item) {
         if (err)
             return (err, null);
-
         console.log(item);
         //Return item title
         res.send(item);
@@ -39,16 +38,12 @@ router.put('/editedItem', function(){
     });
 });
 
-router.post('/deleteItem', function(){
+
+router.post('/deleteItem', function(req, res){
     // render the /tests view
 });
 
-router.post('/buyItem', function(){
-    // render the /tests view
-});
-
-//return all items that the user has listed
-router.get('/getStore', function(){
+router.post('/buyItem', function(req, res){
     // render the /tests view
 });
 

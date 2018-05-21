@@ -1,4 +1,4 @@
-export function loginReducer(state =
+export function reducerLogin(state =
   {loading: false, loggedIn: false, error: null, skip: false, userProfile: null}, action) {
     switch (action.type) {
     case 'LOADING':
@@ -11,6 +11,10 @@ export function loginReducer(state =
             loading: false,
             error: null,
             userProfile: action.userObject
+        });
+    case 'USER_UPDATE':
+        return Object.assign({}, state, {
+            userProfile, action.userObject
         });
     case 'LOGOUT':
         return Object.assign({}, state, {

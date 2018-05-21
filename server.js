@@ -15,6 +15,9 @@ var LocalStrategy = require('passport-local').Strategy;
 const userRoute = require('./Routes/userRoute');
 const itemRoute = require('./Routes/itemRoute');
 
+//testing routes
+const testingRoute = require('./Routes/testRoute');
+
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
@@ -68,6 +71,7 @@ passport.deserializeUser(function(id, done) {
 
 app.use('/', userRoute);
 app.use('/', itemRoute);
+app.use('/', testingRoute);
 
 var port = process.env.PORT || 8080;
 http.listen(port, function() {
