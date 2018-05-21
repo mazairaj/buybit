@@ -6,24 +6,25 @@ var router = express.Router();
 //     // render the /tests view
 // })
 
-router.post('/createItem', function(){
+router.post('/createItem', function(req, res){
     // render the /tests view
 })
 
-router.post('/editedItem', function(){
+router.post('/editedItem', function(req, res){
     // render the /tests view
 })
 
-router.post('/deleteItem', function(){
+router.post('/deleteItem', function(req, res){
     // render the /tests view
 })
 
-router.post('/buyItem', function(){
+router.post('/buyItem', function(req, res){
     // render the /tests view
+    
 })
 
 //return all items that the user has listed
-router.post('/getStore', function(){
+router.post('/getStore', function(req, res){
     // render the /tests view
 })
 

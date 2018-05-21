@@ -55,6 +55,13 @@ export function logout() {
     };
 }
 
+export function updateUser(userObject){
+    return {
+        type: 'USER_UPDATE',
+        userObject
+    };
+}
+
 function attempt() {
     return {
         type: 'LOADING'
