@@ -12,15 +12,14 @@ export function login(userObject) {
     		body: JSON.stringify({
 		        email: userObject.email,
 		        password: userObject.password
-		    }).then((response) => response.json())
+            })
+		}).then((response) => response.json())
 		    .then((responseJson) => {
 		    	var userObject = Object.assign({}, responseJson);
                 dispatch(userLogin(userObject));
-		    })
-            .catch((err) => {
+		}).catch((err) => {
                 dispatch(errors(err))
-            });
-    	})
+        });
     };
 }
 
@@ -37,15 +36,14 @@ export function signup(userObject) {
 		        email: email,
 		        password: password,
 		        passwordRepeat: passwordRepeat
-		    }).then((response) => response.json())
+		    })
+        }).then((response) => response.json())
 		    .then((responseJson) => {
 		    	var userObject = Object.assign({}, responseJson);
                 dispatch(userLogin(userObject));
-		    })
-            .catch((err) => {
+		}).catch((err) => {
                 dispatch(errors(err))
-            });
-    	})
+        });
     };
 }
 
@@ -58,15 +56,14 @@ export function update(userObject) {
             },
             body: JSON.stringify({
                 userObject: userObject
-            }).then((response) => response.json())
+            })
+        }).then((response) => response.json())
             .then((responseJson) => {
                 var userObject = Object.assign({}, responseJson);
                 dispatch(updateUser(userObject));
-            })
-            .catch((err) => {
+        }).catch((err) => {
                 dispatch(errors(err))
-            });
-        })
+        });
     };
 }
 
@@ -81,6 +78,13 @@ export function updateUser(userObject){
         type: 'USER_UPDATE',
         userObject
     };
+}
+
+export function updateUserItem(itemID){
+    return {
+        type: 'USER_ITEMLIST_UPDATE',
+        itemID
+    }
 }
 
 function attempt() {

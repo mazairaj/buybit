@@ -14,8 +14,10 @@ export function reducerLogin(state =
         });
     case 'USER_UPDATE':
         return Object.assign({}, state, {
-            userProfile, action.userObject
+            userProfile: action.userObject
         });
+    case 'USER_ITEMLIST_UPDATE':
+        return this.state.userProfile.myItems.push(action.itemID)
     case 'LOGOUT':
         return Object.assign({}, state, {
             loading: false,

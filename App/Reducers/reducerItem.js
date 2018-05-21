@@ -1,10 +1,13 @@
 export function reducerItem(state =
-  {itemSold: null, itemPurchase: null, storeItems: null}, action) {
+  {itemSold: null, itemPurchase: null, storeItems: null, err: null}, action) {
     switch (action.type) {
-
-    case 'ITEM_CREATE': 
+    case 'STORE_LOOKUP':
         return Object.assign({}, state, {
-
+            storeItems: action.storeItems
+        });
+    case 'ITEM_CREATE': 
+        return Object.assign(feedObject, state, {
+            storeItems: action.newFeed
         });
     case 'ITEM_DELETE':
         return Object.assign({}, state, {
@@ -15,12 +18,17 @@ export function reducerItem(state =
 
         });
     case 'ITEM_PURCHASE':
-        return Object.assign({}, state, {
-
-        });
+        return {
+            ...state,
+            storeItems: {
+                ...state.myPosts,
+                isItemSold: true,
+                timeofSold: action.timeofSold
+            }
+        }
     case 'ITEM_ERROR': 
         return Object.assign({}, state, {
-
+            err: action.err
         });
     
     default:

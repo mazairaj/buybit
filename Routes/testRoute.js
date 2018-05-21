@@ -17,27 +17,32 @@ router.post('/buyItemTest', function(req, res) {
 
     	newEthAmount = (req.body.ethAmount - item) * 0.99
 
-    	User.findByIdAndUpdate(req.body.userId, {'ethAmount': itemPrice}, function(err, user){
+    	User.findByIdAndUpdate(req.body.userId, {'ethAmount': newEthAmount}, function(err, user){
 
     		item.isItemSold = true;
-    		item.save(function(err, item) {
-                if (err) 
-                    return (err, null);
-                console.log(item);
-                res.send(item)
-                return (err, null);
-            });
+    		// item.save(function(err, item) {
+      //           if (err) 
+      //               return (err, null);
+      //           console.log(item);
+      //           res.send(item)
+      //           return (err, null);
+      //       });
 
-    		if (err) return res.send(500, { error: err });
+    		if (err){
+                res.status(500).send(err)
+            }
 
     		user.myItems = [...[item._id.toString()], ...user.myItems]
 
-    		user.save(function(err){
-				if (err) {
-				console.log('error has occur: ',  err)
-				}
-				console.log('Nice, item added in the user model')
-			});
+            console.log(user)
+            console.log(item)
+
+   //  		user.save(function(err){
+			// 	if (err) {
+			// 	console.log('error has occur: ',  err)
+			// 	}
+			// 	console.log('Nice, item added in the user model')
+			// });
 
     		console.log("You purchase the item!")
     	});

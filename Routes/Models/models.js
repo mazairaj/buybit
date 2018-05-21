@@ -7,7 +7,6 @@ var enu = {
   message: 'Status is required'
 }
 
-
 var userSchema = new mongoose.Schema({
   //How can we keep track of User Activity?
   firstName: {
@@ -24,7 +23,8 @@ var userSchema = new mongoose.Schema({
   },
   password: { type: String },
   location: { type: String, default: "Eastern"},
-  myItem: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
+  mySellingItem: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
+  myPurchaseItem: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
   ethWallet: { type: String},
   ethAmount: {type: Number}
 },
@@ -32,7 +32,7 @@ var userSchema = new mongoose.Schema({
 );
 
 var itemSchema = new mongoose.Schema({
-  itemCreator: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+  itemCreator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   itemTitle: String,
   itemPrice: { type: Number, required: true },
   itemDescription: String,
