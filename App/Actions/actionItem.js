@@ -23,10 +23,69 @@ export function storeLookUp() {
     };
 }
 
+export function myPurchasedItem() {
+    return dispatch => {
+        fetch(Enviroment.SERVER + 'myPurchasedItem', {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json'
+            }          
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson){
+                    console.log(responseJson)
+                    var myPurchasedItem = JSON.parse(responseJson);
+                    dispatch(my_purchase_item(myPurchasedItem));
+                }else{
+                   dispatch(errors("No Responses!")) 
+                }
+        }).catch((err) => {
+            dispatch(errors(err))
+        });   
+    };
+}
+
+export function myStoreLookUp() {
+    return dispatch => {
+        fetch(Enviroment.SERVER + 'myStoreLookUp', {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json'
+            }          
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson){
+                    console.log(responseJson)
+                    var myStoreItem = JSON.parse(responseJson);
+                    dispatch(my_store_look_up(myStoreItem));
+                }else{
+                   dispatch(errors("No Responses!")) 
+                }
+        }).catch((err) => {
+            dispatch(errors(err))
+        });   
+    };
+}
+
+
 function store_look_up(storeItems) {
     return {
         type: 'STORE_LOOKUP',
         storeItems
+    };
+}
+
+function my_purchase_item(myPurchasedItem) {
+    return {
+        type: 'MY_PURCHASE_ITEM',
+        myPurchasedItem
+    };
+}
+
+function my_store_look_up(myStoreItem) {
+    return {
+        type: 'MY_STORE_ITEM',
+        myStoreItem
     };
 }
 

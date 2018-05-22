@@ -1,9 +1,17 @@
 export function reducerItem(state =
-  {itemSold: null, itemPurchase: null, storeItems: null, err: null}, action) {
+  {myStoreItem: null, myPurchasedItem: null, storeItems: null, err: null}, action) {
     switch (action.type) {
     case 'STORE_LOOKUP':
         return Object.assign({}, state, {
             storeItems: action.storeItems
+        });
+    case 'MY_PURCHASE_ITEM':
+        return Object.assign({}, state, {
+            myPurchasedItem: action.myPurchasedItem
+        });
+    case 'MY_STORE_ITEM':
+        return Object.assign({}, state, {
+            myStoreItem: action.myStoreItem
         });
     case 'ITEM_CREATE': 
         return Object.assign(feedObject, state, {
