@@ -21,19 +21,18 @@
 // });
 
 import React, { Component } from 'react';
-import { AppRegistry } from 'react-native';
-import Root           from '.App/Containers/container';
+import { AppRegistry , View, Text} from 'react-native';
+import Root           from './App/Containers/container';
 // import configureStore from './app/store/configureStore.prod.js';
 
 // const store = configureStore();
 
-class ReactNativeHelloWorld extends Component {
+export default class App extends Component {
   render() {
     return (
-      <Root  />
+      <Root/>
       // <Root store={store} />
     );
   }
 }
 
-AppRegistry.registerComponent('ReactNativeWebHelloWorld', () => ReactNativeHelloWorld);
