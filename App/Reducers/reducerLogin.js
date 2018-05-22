@@ -31,7 +31,6 @@ export function reducerLogin(state =
             error: action.err
         });
     }
-
     default:
         return state;
     }

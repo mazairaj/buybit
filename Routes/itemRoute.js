@@ -82,8 +82,6 @@ router.post('/createItem', function(req, res){
         res.send(item);
         return null;
     });
-
-
 });
 
 router.put('/editedItem', function(req, res){
