@@ -32,11 +32,13 @@ var ItemAction = function() {
                 console.log(convertedPrice);
                 break;
             case 'JPY' :
+                //Grab ETH price in JPY, and Divide into ItemPrice
                 var ETHPrice = prices.JPY;
                 var convertedPrice = ItemPrice / ETHPrice;
                 console.log(convertedPrice);
                 break;
             case 'KRW' :
+                //Grab ETH price in KRW, and Divide into ItemPrice
                 var ETHPrice = prices.KRW;
                 var convertedPrice = ItemPrice / ETHPrice;
                 console.log(convertedPrice);
