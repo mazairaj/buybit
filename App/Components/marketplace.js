@@ -3,6 +3,9 @@ import { Provider } from 'react-redux';
 import { Image, View, StyleSheet } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base'
 
+
+
+
 class MarketPlace extends Component {
   render() {
     return (

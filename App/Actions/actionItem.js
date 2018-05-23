@@ -1,4 +1,5 @@
 import * as actionLogin from './actionLogin';
+const Environment = require('../Environment.js')
 
 //store - look up, filter actions
 export function storeLookUp() {
@@ -184,3 +185,40 @@ function errors(err) {
         err
     };
 }
+
+//get exchange ratio
+export function storeLookUp() {
+    return dispatch => {
+        // "Enviroment.server = http:local:8080/"
+        fetch(Enviroment.SERVER + 'getExchange', {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json'
+            }          
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson){
+                    console.log(responseJson)
+                    var exchangeRate = JSON.parse(responseJson);
+                    dispatch(exchange_rate(exchangeRate));
+                }else{
+                   dispatch(errors("No Responses!")) 
+                }
+        }).catch((err) => {
+            dispatch(errors(err))
+        });   
+
+    };
+}
+
+function exchange_rate(exchangeRate) {
+    return {
+        type: 'EXCHANGE_RATE',
+        exchangeRate
+    };
+}
+
+// router.get('/getExchange'){
+//     .......
+//     res.send(exchangeRate)
+// }
