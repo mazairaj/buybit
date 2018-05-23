@@ -8,15 +8,6 @@ import { bindActionCreators } from 'redux';
 
 import * as actionLogin from '../../Actions/actionLogin';
 
-
-import Slider from 'react-native-slider'
-import { Icon } from 'react-native-elements'
-
-
-
-var DESTRUCTIVE_INDEX = 2;
-var CANCEL_INDEX = 3;
-
 class userForm extends Component {
   constructor (props) {
     super(props);
@@ -122,4 +113,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PinForm);
+export default connect(mapStateToProps, mapDispatchToProps)(userForm);

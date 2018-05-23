@@ -10,23 +10,16 @@ import configureStore from '../store';
 // } from 'react-native-global-props';
 
 import MarketPlace  from '../Components/marketplace'
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Login</Text>
-      </View>
-    );
-  }
-}
+import userForm from '../Components/Form/loginForm'
+
 const store = configureStore();
 const RootStack = createStackNavigator(
   {
-    Home: HomeScreen,
+    Login: userForm,
     Market: MarketPlace,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
   }
 );
 export default class Root extends Component {

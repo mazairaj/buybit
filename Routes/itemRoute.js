@@ -27,7 +27,7 @@ router.get('/myPurchasedItem', function(req,res){
         if(err) {return err}
         res.send(items)
         return items
-    }});
+    });
 });
 
 //Item I am selling lookup

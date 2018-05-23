@@ -48,7 +48,13 @@ class MarketPlace extends Component {
     const dataSource = ds.cloneWithRows(storeItems);
     return (
       <Container>
-        <Header />
+        <Header>
+          <Left>
+            <Button transparent>
+              <Icon active name="navicon" />
+            </Button>
+          </Left>
+        </Header>
         <Content>
           { storeItems.length > 0 ? 
             <ListView
