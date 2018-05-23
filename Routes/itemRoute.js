@@ -25,11 +25,10 @@ router.get('/myPurchasedItem', function(req,res){
 
     Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items){
         if(err) {return err}
-
-        res.send(items);
-        return items;
-    });
-    });
+        res.send(items)
+        return items
+    }});
+});
 
 //Item I am selling lookup
 router.get('/myStoreLookUp', function(req,res){
@@ -68,8 +67,8 @@ router.post('/createItem', function(req, res){
         }
 
         user.findById(itemObject.itemCreator, function(err, user){
-        	user.myItems = [...[item._id.toString()],..user.myItems]
-
+        	// user.myItems = [...[item._id.toString()],..user.myItems]
+        	user.myItems = [...[item._id.toString()].user.myItems]
         	user.save(function(err, user) {
         		if (err){
         			return err

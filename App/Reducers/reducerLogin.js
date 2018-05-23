@@ -23,7 +23,7 @@ export function reducerLogin(state =
             loading: false,
             loggedIn: false,
             error: null,
-            userProfile, null
+            userProfile: null
         });
     case 'ERROR': {
         return Object.assign({}, state, {
