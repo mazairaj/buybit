@@ -187,7 +187,7 @@ function errors(err) {
 }
 
 //get exchange ratio
-export function storeLookUp() {
+export function exchangeRateLookUp() {
     return dispatch => {
         // "Enviroment.server = http:local:8080/"
         fetch(Enviroment.SERVER + 'getExchange', {
@@ -217,8 +217,3 @@ function exchange_rate(exchangeRate) {
         exchangeRate
     };
 }
-
-// router.get('/getExchange'){
-//     .......
-//     res.send(exchangeRate)
-// }
