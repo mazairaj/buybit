@@ -53,7 +53,8 @@ router.post('/createItem', function(req, res){
     //Create New Item from Request
     newItem.itemCreator = itemObject.itemCreator;
     newItem.itemTitle = itemObject.itemTitle;
-    newItem.itemPrice = itemObject.itemPrice;
+    newItem.itemPriceUSD = itemObject.itemPriceUSD;
+    newItem.itemPriceETH = itemObject.itemPriceETH;
     newItem.itemDescription = itemObject.itemDescription;
     newItem.itemCondition = itemObject.itemCondition;
     newItem.itemImage = itemObject.itemImage;
