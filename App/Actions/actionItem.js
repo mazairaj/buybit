@@ -151,6 +151,31 @@ export function buyItem(userId, ethAmount, itemId) {
     };
 }
 
+//get exchange ratio
+export function exchangeRate(currency) {
+    return dispatch => {
+        // "Enviroment.server = http:local:8080/"
+        fetch(Enviroment.SERVER + 'getExchange', {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        }).then((response) => response.json())
+    .then((responseJson) => {
+            if(responseJson){
+                console.log(responseJson)
+                var exchangeRate = JSON.parse(responseJson);
+                dispatch(exchange_rate(exchangeRate));
+            }else{
+                dispatch(errors("No Responses!"))
+    }
+    }).catch((err) => {
+            dispatch(errors(err))
+    });
+
+    };
+}
+
 function item_create(itemObject) {
     return {
         type: 'ITEM_CREATE',
@@ -183,31 +208,6 @@ function errors(err) {
     return {
         type: 'ITEM_ERROR',
         err
-    };
-}
-
-//get exchange ratio
-export function storeLookUp() {
-    return dispatch => {
-        // "Enviroment.server = http:local:8080/"
-        fetch(Enviroment.SERVER + 'getExchange', {
-            method: 'GET',
-            headers: {
-                'Content-Type' : 'application/json'
-            }          
-        }).then((response) => response.json())
-            .then((responseJson) => {
-                if(responseJson){
-                    console.log(responseJson)
-                    var exchangeRate = JSON.parse(responseJson);
-                    dispatch(exchange_rate(exchangeRate));
-                }else{
-                   dispatch(errors("No Responses!")) 
-                }
-        }).catch((err) => {
-            dispatch(errors(err))
-        });   
-
     };
 }
 

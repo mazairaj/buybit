@@ -1,55 +1,43 @@
 global.fetch = require('node-fetch');
 const cc = require('cryptocompare');
 
-var ItemAction = function() {
-    //get current price in ETH from fromCurrency value, could be user setting
-    ToETH = function (ItemPrice, fromCurrency) {
-        cc.price('ETH', fromCurrency)
+router.get('/getExchange', function(req,res){
+    //get current ratio of 'Currency' to ETH
+        cc.price('ETH', req.body.currency)
             .then(prices => {
-
         switch(fromCurrency) {
-
+            
             case 'USD' :
-                //Grab ETH price in USD, and Divide into ItemPrice
+                //Grab ETH price in USD, and Divide into 1
                 var ETHPrice = prices.USD;
-                var convertedPrice = ItemPrice / ETHPrice;
-                return convertedPrice;
+                var ETHRatio = 1 / ETHPrice;
+                return ETHRatio;
                 break;
             case 'EUR' :
-                //Grab ETH price in EUR, and Divide into ItemPrice
+                //Grab ETH price in EUR, and Divide into 1
                 var ETHPrice = prices.EUR;
-                var convertedPrice = ItemPrice / ETHPrice;
-                return convertedPrice;
+                var ETHRatio = 1 / ETHPrice;
+                return ETHRatio;
                 break;
             case 'GBP' :
-                //Grab ETH price in EUR, and Divide into ItemPrice
+                //Grab ETH price in EUR, and Divide into 1
                 var ETHPrice = prices.GBP;
-                var convertedPrice = ItemPrice / ETHPrice;
-                return convertedPrice;
+                var ETHRatio = 1 / ETHPrice;
+                return ETHRatio;
                 break;
             case 'JPY' :
-                //Grab ETH price in JPY, and Divide into ItemPrice
+                //Grab ETH price in JPY, and Divide into 1
                 var ETHPrice = prices.JPY;
-                var convertedPrice = ItemPrice / ETHPrice;
-                return convertedPrice;
+                var ETHRatio = 1 / ETHPrice;
+                return ETHRatio;
                 break;
             case 'KRW' :
-                //Grab ETH price in KRW, and Divide into ItemPrice
+                //Grab ETH price in KRW, and Divide into 1
                 var ETHPrice = prices.KRW;
-                var convertedPrice = ItemPrice / ETHPrice;
-                return convertedPrice;
+                var ETHRatio = 1 / ETHPrice;
+                return ETHRatio;
                 break;
         }
     })
         .catch(console.error);
-    };
-
-    return {
-        ToETH: function(ItemPrice, fromCurrency) {
-            return ToETH(ItemPrice, fromCurrency);
-        }
-    }
-};
-module.exports = ItemAction;
-//example call: ItemAction.ToEth(100, 'USD');
-//returns Item Price in ETH
+});
