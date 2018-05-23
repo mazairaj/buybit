@@ -122,4 +122,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PinForm);
+export default connect(mapStateToProps, mapDispatchToProps)(userForm);
