@@ -1,103 +1,87 @@
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
-import { Image, View, StyleSheet } from 'react-native';
+import { Image, View, StyleSheet, Dimensions, ListView } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base'
 
+import { bindActionCreators } from 'redux';
+import * as storeActions from '../Actions/actionItem';
+import * as loginActions from '../Actions/actionLogin';
+
+import { connect } from 'react-redux';
+
+import MainStoreCard from '../Containers/mainStoreItem.js'
+
+var {height, width} = Dimensions.get('window');
+
 class MarketPlace extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    };
+  }
+  componentDidMount() {
+    var {itemActions} = this.props
+    itemActions.storeLookUp()
+
+  }
+  conditionalList(items) {
+    if (items.length > 0 ) {
+      return (
+        <ListView
+        dataSource = {storeItems}
+        renderHeader = {() => <Text>Popular</Text>} //Render CreatePost first
+        renderRow={(val, i) => {
+          var even = (i === 0 || !!(i && !(i%2)));
+          return (
+            <MainStoreCard item={val} even={even}/>
+          )
+        }
+        }/>
+      )
+    }
+  }
   render() {
+    console.log(this.props.store)
+    var storeItems = !!this.props.store.storeItems ? this.props.store.storeItems: [];
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    const dataSource = ds.cloneWithRows(storeItems);
     return (
       <Container>
         <Header />
         <Content>
-          <Card>
-            <CardItem>
-              <Left>
-                <Thumbnail source={{uri: 'https://scontent.fmia1-2.fna.fbcdn.net/v/t1.0-9/12439023_10206114395882164_3964247135252667796_n.jpg?_nc_cat=0&oh=05a55a2f207aa5a6feaf1b40ce862cee&oe=5B7BF562'}} />
-                <Body>
-                  <Text>User Name</Text>
-                  <Text note>Tagline</Text>
-                </Body>
-              </Left>
-              <Right >
-                <Button transparent>
-                  <Icon active name="paper-plane" />
-                </Button>
-              </Right>
-            </CardItem>
-            <CardItem cardBody style={styles.cardBodyContainer}>
-              <Image style={{flex: '1 0',}} source={{uri: 'https://scontent.fmia1-2.fna.fbcdn.net/v/t1.0-9/15966063_10208225199250929_8665281952004263846_n.jpg?_nc_cat=0&oh=4a5e47fe7ecf061402e1a83596b5b226&oe=5B90CABA'}} style={{height: 200, width: null, flex: 1}}/>
-              <View style={styles.itemInformation}>
-                <Text>Item title</Text>
-                <Text note>Item Description</Text>
-                <Text>$100</Text>
-                <Button rounded success>
-                    <Text>Shop Now</Text>
-                </Button>
-              </View>
-            </CardItem>
-            <CardItem>
-              <Left>
-                  <Icon active name="eye" />
-                  <Text>12 Views</Text>
-              </Left>
-              <Right>
-                <Button transparent>
-                  <Icon active name="cart" />
-                  <Text>Add To Cart</Text>
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
-          <Card>
-          <CardItem>
-              <Left>
-                <Thumbnail source={{uri: 'https://scontent.fmia1-2.fna.fbcdn.net/v/t1.0-9/12439023_10206114395882164_3964247135252667796_n.jpg?_nc_cat=0&oh=05a55a2f207aa5a6feaf1b40ce862cee&oe=5B7BF562'}} />
-                <Body>
-                  <Text>User Name</Text>
-                  <Text note>Tagline</Text>
-                </Body>
-              </Left>
-              <Right >
-                <Button transparent>
-                  <Icon active name="paper-plane" />
-                </Button>
-              </Right>
-            </CardItem>
-            <CardItem cardBody style={styles.cardBodyContainer}>
-              <Image style={{flex: '1 0',}} source={{uri: 'https://scontent.fmia1-2.fna.fbcdn.net/v/t1.0-9/15966063_10208225199250929_8665281952004263846_n.jpg?_nc_cat=0&oh=4a5e47fe7ecf061402e1a83596b5b226&oe=5B90CABA'}} style={{height: 200, width: null, flex: 1}}/>
-              <View style={{flex: 1}}>
-                <View style={styles.itemInformation}>
-                  <Text>Item title</Text>
-                  <Text note>Item Description</Text>
-                  <Text>$100</Text>
-                </View>
-                <View style={styles.itemInformation}>
-                  <Button rounded success>
-                      <Text>Shop Now</Text>
-                  </Button>
-                </View>
-              </View>
-            </CardItem>
-            <CardItem>
-              <Left>
-                  <Icon active name="eye" />
-                  <Text>12 Views</Text>
-              </Left>
-              <Right>
-                <Button transparent>
-                  <Icon active name="cart" />
-                  <Text>Add To Cart</Text>
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
+          { storeItems.length > 0 ? 
+            <ListView
+              dataSource = {dataSource}
+              renderHeader = {() => <Text>Popular</Text>} //Render CreatePost first
+              renderRow={(val, i) => {
+                var even = (i === 0 || !!(i && !(i%2)));
+                return (
+                  <MainStoreCard item={val} even={even}/>
+                )
+              }
+              }/> : null }
         </Content>
       </Container>
     );
   }
 }
+function mapStateToProps(state) {
+	return {
+    profile: state.get('userProfile'),
+    store: state.get('store')
+	};
+}
 
-export { MarketPlace }
+function mapDispatchToProps(dispatch) {
+	return {
+    itemActions: bindActionCreators(storeActions, dispatch),
+    loginActions: bindActionCreators(loginActions, dispatch)
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MarketPlace) 
+// export { MarketPlace }
 
 const styles = StyleSheet.create({
   container: {

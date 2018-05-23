@@ -1,9 +1,10 @@
 import * as actionLogin from './actionLogin';
+const Environment = require('../Environment.js')
 
 //store - look up, filter actions
 export function storeLookUp() {
     return dispatch => {
-        fetch(Enviroment.SERVER + 'storeLookUp', {
+        fetch(Environment.SERVER + 'storeLookUp', {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json'
@@ -11,13 +12,14 @@ export function storeLookUp() {
         }).then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson){
-                    console.log(responseJson)
-                    var storeItems = JSON.parse(responseJson);
+                    console.log("RES", responseJson)
+                    var storeItems = (responseJson);
                     dispatch(store_look_up(storeItems));
                 }else{
                    dispatch(errors("No Responses!")) 
                 }
         }).catch((err) => {
+            console.log("Err", err)
             dispatch(errors(err))
         });   
     };
@@ -25,7 +27,7 @@ export function storeLookUp() {
 
 export function myPurchasedItem() {
     return dispatch => {
-        fetch(Enviroment.SERVER + 'myPurchasedItem', {
+        fetch(Environment.SERVER + 'myPurchasedItem', {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json'
@@ -47,7 +49,7 @@ export function myPurchasedItem() {
 
 export function myStoreLookUp() {
     return dispatch => {
-        fetch(Enviroment.SERVER + 'myStoreLookUp', {
+        fetch(Environment.SERVER + 'myStoreLookUp', {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json'
@@ -55,13 +57,14 @@ export function myStoreLookUp() {
         }).then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson){
-                    console.log(responseJson)
+                    console.log("RES", responseJson)
                     var myStoreItem = JSON.parse(responseJson);
                     dispatch(my_store_look_up(myStoreItem));
                 }else{
                    dispatch(errors("No Responses!")) 
                 }
         }).catch((err) => {
+            console.log("Err", err)
             dispatch(errors(err))
         });   
     };
@@ -92,7 +95,7 @@ function my_store_look_up(myStoreItem) {
 //item -  create, update, delete, buyitem actions
 export function createItem(itemObject) {
     return dispatch => {
-        fetch(Enviroment.SERVER + 'createItem', {
+        fetch(Environment.SERVER + 'createItem', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'
@@ -129,7 +132,7 @@ export function deleteItem(userId, ethAmount, itemId) {
 
 export function buyItem(userId, ethAmount, itemId) {
     return dispatch => {
-    	fetch(Enviroment.SERVER + 'buyItem', {
+    	fetch(Environment.SERVER + 'buyItem', {
     		method: 'POST',
     		headers: {
     			'Content-Type' : 'application/json'

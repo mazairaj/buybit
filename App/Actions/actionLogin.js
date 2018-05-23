@@ -4,7 +4,7 @@ const Environment = require('../Environment.js')
 export function login(userObject) {
     return dispatch => {
         dispatch(attempt());
-    	fetch(Enviroment.SERVER + 'login', {
+    	fetch(Environment.SERVER + 'login', {
     		method: 'POST',
     		headers: {
     			'Content-Type' : 'application/json'
@@ -25,7 +25,7 @@ export function login(userObject) {
 
 export function signup(userObject) {
     return dispatch => {
-    	fetch(Enviroment.SERVER + 'signup', {
+    	fetch(Environment.SERVER + 'signup', {
     		method: 'POST',
     		headers: {
     			'Content-Type' : 'application/json'
@@ -49,7 +49,7 @@ export function signup(userObject) {
 
 export function update(userObject) {
     return dispatch => {
-        fetch(Enviroment.SERVER + 'updateUser', {
+        fetch(Environment.SERVER + 'updateUser', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'
