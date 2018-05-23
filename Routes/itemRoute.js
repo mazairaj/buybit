@@ -12,8 +12,8 @@ router.get('/storeLookUp', function(req,res){
     Item.find({}, function(err, items){
         if(err) {return err}
 
-        res.send(items)
-        return items
+        res.send(items);
+        return items;
     });
 });
 
@@ -23,9 +23,8 @@ router.get('/myPurchasedItem', function(req,res){
     // var today = moment().startOf('day')
     // var tomorrow = moment(today).add(1, 'days')
 
-    Item.find({'_id' : {'$in': req.body.myPurchasedItem}, function(err, items){
+    Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items){
         if(err) {return err}
-
         res.send(items)
         return items
     }});
@@ -48,7 +47,7 @@ router.get('/myStoreLookUp', function(req,res){
 // create, update, delete items
 router.post('/createItem', function(req, res){
 
-	var itemObject = req.body.itemObject
+	var itemObject = req.body.itemObject;
 
     var newItem = new Item();
     //Create New Item from Request
@@ -63,13 +62,13 @@ router.post('/createItem', function(req, res){
     //Save New Item into DB
     newItem.save(function(err, item) {
         if (err){
-        	console.log(err)
+        	console.log(err);
         	return err;
         }
 
         user.findById(itemObject.itemCreator, function(err, user){
         	// user.myItems = [...[item._id.toString()],..user.myItems]
-        	user.myItems = [...[item._id.toString()].user.myItems]
+        	user.myItems = [...[item._id.toString()],...user.myItems]
         	user.save(function(err, user) {
         		if (err){
         			return err
@@ -96,6 +95,12 @@ router.put('/editedItem', function(req, res){
 
 router.post('/deleteItem', function(req, res){
     // render the /tests view
+    Item.findByIdAndRemove({_id: req.body.itemID}, function(err, doc){
+        if (err){
+            return res.send(500, { error: err });
+        }
+        return res.send("Item Deleted");
+    });
 });
 
 
@@ -105,14 +110,14 @@ router.post('/buyItem', function(req, res) {
     	if (err) return res.send(500, { error: err });
 
     	if (!item) { 
-	        console.log("no item")
+	        console.log("no item");
 	        return null
     	}
 
-    	newEthAmount = (req.body.ethAmount - item.itemPrice) * 0.99
+    	newEthAmount = (req.body.ethAmount - item.itemPrice) * 0.99;
     	if(newEthAmount < 0){
-    		console.log("can't purchase item, too expensive")
-    		res.send(err)
+    		console.log("can't purchase item, too expensive");
+    		res.send(err);
     		return err
     	}
 
