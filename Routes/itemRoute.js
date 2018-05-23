@@ -28,7 +28,7 @@ router.get('/myPurchasedItem', function(req,res){
 
         res.send(items)
         return items
-    });
+    }});
 });
 
 //Item I am selling lookup
@@ -68,8 +68,8 @@ router.post('/createItem', function(req, res){
         }
 
         user.findById(itemObject.itemCreator, function(err, user){
-        	user.myItems = [...[item._id.toString()],..user.myItems]
-
+        	// user.myItems = [...[item._id.toString()],..user.myItems]
+        	user.myItems = [...[item._id.toString()].user.myItems]
         	user.save(function(err, user) {
         		if (err){
         			return err
