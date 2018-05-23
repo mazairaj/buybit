@@ -1,5 +1,5 @@
 export function reducerItem(state =
-  {myStoreItem: null, myPurchasedItem: null, storeItems: null, err: null}, action) {
+  {myStoreItem: null, myPurchasedItem: null, storeItems: null, exchangeRate: null, err: null}, action) {
     switch (action.type) {
     case 'STORE_LOOKUP':
         return Object.assign({}, state, {
@@ -34,11 +34,10 @@ export function reducerItem(state =
                 timeofSold: action.timeofSold
             }
         }
-    case 'ITEM_ERROR': 
+    case 'EXCHANGE_RATE': 
         return Object.assign({}, state, {
-            err: action.err
+            exchangeRate: action.exchangeRate
         });
-    
     default:
         return state;
     }

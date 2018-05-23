@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f816c7fc-5d73-4685-aeb3-d692b574e7dd" name="Default" comment="" />
+
+    <list default="true" id="f816c7fc-5d73-4685-aeb3-d692b574e7dd" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/App/Actions/actionItem.js" afterPath="$PROJECT_DIR$/App/Actions/actionItem.js" />
+      <change beforePath="$PROJECT_DIR$/App/Components/marketplace.js" afterPath="$PROJECT_DIR$/App/Components/marketplace.js" />
+      <change beforePath="$PROJECT_DIR$/App/Reducers/reducerItem.js" afterPath="$PROJECT_DIR$/App/Reducers/reducerItem.js" />
+      <change beforePath="$PROJECT_DIR$/Routes/itemRoute.js" afterPath="$PROJECT_DIR$/Routes/itemRoute.js" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -10,11 +17,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
+
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="399">
               <caret line="19" column="4" lean-forward="false" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
               <folding />
             </state>
@@ -480,7 +488,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package-lock.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
+        <state relative-caret-position="21">
           <caret line="16" column="33" lean-forward="false" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
         </state>
       </provider>

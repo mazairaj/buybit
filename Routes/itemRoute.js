@@ -68,7 +68,7 @@ router.post('/createItem', function(req, res){
 
         user.findById(itemObject.itemCreator, function(err, user){
         	// user.myItems = [...[item._id.toString()],..user.myItems]
-        	user.myItems = [...[item._id.toString()].user.myItems]
+        	user.myItems = [...[item._id.toString()],...user.myItems]
         	user.save(function(err, user) {
         		if (err){
         			return err
