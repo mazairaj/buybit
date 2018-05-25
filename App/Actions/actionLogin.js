@@ -67,9 +67,6 @@ export function update(userObject) {
     };
 }
 
-export function updateUserItem(itemID){
-
-}
 
 export function logout() {
     return {

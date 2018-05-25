@@ -68,14 +68,15 @@ router.post('/createItem', function(req, res){
         	return err;
         }
 
+        //Save id of item into user db
         user.findById(itemObject.itemCreator, function(err, user){
         	// user.myItems = [...[item._id.toString()],..user.myItems]
-        	user.myItems = [...[item._id.toString()],...user.myItems];
+        	user.myItems = [...item._id.toString(),user.myItems];
         	user.save(function(err, user) {
         		if (err){
         			return err
         		}
-        		console.log("user's myitem is updated!")
+        		console.log("user's myitem is updated!");
         	})
         });
 
@@ -85,7 +86,7 @@ router.post('/createItem', function(req, res){
     });
 });
 
-router.put('/editedItem', function(req, res){
+router.put('/updateItem', function(req, res){
     // render the /tesItem.updatets view
     Item.findOneAndUpdate({_id: req.body.itemID}, req.body.data, function(err, doc){
         if (err){
@@ -104,7 +105,6 @@ router.post('/deleteItem', function(req, res){
         return res.send("Item Deleted");
     });
 });
-
 
 router.post('/buyItem', function(req, res) {
     // req.body.id

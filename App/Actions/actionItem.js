@@ -105,9 +105,8 @@ export function createItem(itemObject) {
             .then((responseJson) => {
                 if(responseJson){
                     var itemObject = [...responseJson];
-                    //Create this item in the documents of items, and users
+                    //State update for both user and store
                     dispatch(item_create(itemObject));
-                    dispatch(actionLogin.updateUserItem(itemObject._id));
                 }else{
                    dispatch(errors("No Responses!")) 
                 }
@@ -131,8 +130,8 @@ export function updateItem(userId, ethAmount, itemId) {
     .then((responseJson) => {
             if(responseJson){
                 var itemObject = [...responseJson];
+                //State update for both user and store
                 dispatch(item_update(itemObject));
-                dispatch(actionLogin.updateUserItem(itemObject._id))
             }else{
                 dispatch(errors("No Responses!"))
     }
@@ -157,7 +156,7 @@ export function deleteItem(userId, ethAmount, itemId) {
             if(responseJson){
                 var itemObject = [...responseJson];
                 dispatch(item_delete(itemObject._id));
-                dispatch(actionLogin.deleteUserItem(itemObject._id))
+               // dispatch(actionLogin.deleteUserItem(itemObject._id))
             }else{
                 dispatch(errors("No Responses!"))
     }
