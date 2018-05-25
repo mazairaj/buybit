@@ -105,8 +105,9 @@ export function createItem(itemObject) {
             .then((responseJson) => {
                 if(responseJson){
                     var itemObject = [...responseJson];
-                    dispatch(createItem(itemObject));
-                    dispatch(actionLogin.updateUserItem(itemObject._id))
+                    //Create this item in the documents of items, and users
+                    dispatch(item_create(itemObject));
+                    dispatch(actionLogin.updateUserItem(itemObject._id));
                 }else{
                    dispatch(errors("No Responses!")) 
                 }
@@ -118,13 +119,51 @@ export function createItem(itemObject) {
 
 export function updateItem(userId, ethAmount, itemId) {
     return dispatch => {
-
+        fetch(Enviroment.SERVER + 'updateItem', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                itemObject: itemObject
+            })
+        }).then((response) => response.json())
+    .then((responseJson) => {
+            if(responseJson){
+                var itemObject = [...responseJson];
+                dispatch(item_update(itemObject));
+                dispatch(actionLogin.updateUserItem(itemObject._id))
+            }else{
+                dispatch(errors("No Responses!"))
+    }
+    }).catch((err) => {
+            dispatch(errors(err))
+    });
     };
 }
 
 export function deleteItem(userId, ethAmount, itemId) {
     return dispatch => {
-
+        fetch(Enviroment.SERVER + 'deleteItem', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                itemObject: itemObject
+            })
+        }).then((response) => response.json())
+    .then((responseJson) => {
+            if(responseJson){
+                var itemObject = [...responseJson];
+                dispatch(item_delete(itemObject._id));
+                dispatch(actionLogin.deleteUserItem(itemObject._id))
+            }else{
+                dispatch(errors("No Responses!"))
+    }
+    }).catch((err) => {
+            dispatch(errors(err))
+    });
     };
 }
 
@@ -148,6 +187,35 @@ export function buyItem(userId, ethAmount, itemId) {
 		}).catch((err) => {
                 dispatch(errors(err))
         });
+    };
+}
+
+//functions for Item Create, Update, Delete, Purchase
+function item_create(itemObject) {
+    return {
+        type: 'ITEM_CREATE',
+        newFeed
+    };
+}
+
+function item_update(item_purchase_id) {
+    return {
+        type: 'ITEM_UPDATE',
+        editItem
+    };
+}
+
+function item_delete(item_purchase_id) {
+    return {
+        type: 'ITEM_DELETE',
+        removedItem
+    };
+}
+
+function item_purchase(timeofSold) {
+    return {
+        type: 'ITEM_PURCHASE',
+        timeofSold
     };
 }
 
@@ -176,31 +244,12 @@ export function exchangeRate(currency) {
     };
 }
 
-function item_create(itemObject) {
-    return {
-        type: 'ITEM_CREATE',
-        itemObject
-    };
-}
+//function for exchange_rate
 
-function item_update(item_purchase_id) {
+function exchange_rate(exchangeRate) {
     return {
-        type: 'ITEM_UPDATE',
-        item_purchase_id
-    };
-}
-
-function item_delete(item_purchase_id) {
-    return {
-        type: 'ITEM_DELETE',
-        item_purchase_id
-    };
-}
-
-function item_purchase(timeofSold) {
-    return {
-        type: 'ITEM_PURCHASE',
-        timeofSold
+        type: 'EXCHANGE_RATE',
+        exchangeRate
     };
 }
 
@@ -208,13 +257,6 @@ function errors(err) {
     return {
         type: 'ITEM_ERROR',
         err
-    };
-}
-
-function exchange_rate(exchangeRate) {
-    return {
-        type: 'EXCHANGE_RATE',
-        exchangeRate
     };
 }
 

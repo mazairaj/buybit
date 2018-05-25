@@ -23,11 +23,13 @@ router.get('/myPurchasedItem', function(req,res){
     // var today = moment().startOf('day')
     // var tomorrow = moment(today).add(1, 'days')
 
-    Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items){
-        if(err) {return err}
-        res.send(items)
+    Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items) {
+        if (err) {
+            return err
+        }
+        res.send(items);
         return items
-    }});
+    });
 });
 
 //Item I am selling lookup
@@ -39,7 +41,7 @@ router.get('/myStoreLookUp', function(req,res){
     Item.find({"itemCreator": req.body.userId}, function(err, items){
         if(err) {return err}
 
-        res.send(items)
+        res.send(items);
         return items
     });
 });
@@ -68,7 +70,7 @@ router.post('/createItem', function(req, res){
 
         user.findById(itemObject.itemCreator, function(err, user){
         	// user.myItems = [...[item._id.toString()],..user.myItems]
-        	user.myItems = [...[item._id.toString()],...user.myItems]
+        	user.myItems = [...[item._id.toString()],...user.myItems];
         	user.save(function(err, user) {
         		if (err){
         			return err
@@ -128,7 +130,7 @@ router.post('/buyItem', function(req, res) {
                 if (err) 
                     return (err, null);
                 console.log(item);
-                res.send(item)
+                res.send(item);
                 return (err, null);
             });
 
@@ -142,7 +144,6 @@ router.post('/buyItem', function(req, res) {
 				}
 				console.log('Nice, item added in the user model')
 			});
-
     		console.log("You purchase the item!")
     	});
     });
