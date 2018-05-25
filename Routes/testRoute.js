@@ -32,7 +32,7 @@ router.post('/buyItemTest', function(req, res) {
                 res.status(500).send(err)
             }
 
-    		user.myItems = [...[item._id.toString()], ...user.myItems]
+    		user.myPurchaseItem = [...[item._id.toString()], ...user.myPurchaseItem]
 
             console.log(user)
             console.log(item)
