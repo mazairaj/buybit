@@ -14,6 +14,7 @@ var LocalStrategy = require('passport-local').Strategy;
 //linking the different routes
 const userRoute = require('./Routes/userRoute');
 const itemRoute = require('./Routes/itemRoute');
+const exchangeRateRoute = require('./Routes/exchangeRateRoute');
 
 //testing routes
 const testingRoute = require('./Routes/Test/testRoute');
@@ -71,6 +72,7 @@ passport.deserializeUser(function(id, done) {
 
 app.use('/', userRoute);
 app.use('/', itemRoute);
+app.use('/', exchangeRateRoute);
 app.use('/test', testingRoute);
 
 var port = process.env.PORT || 8080;

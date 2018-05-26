@@ -18,21 +18,6 @@ export function reducerItem(state =
         return Object.assign({}, state, {
             myStoreItem: action.myStoreItem
         });
-    case 'ITEM_CREATE':
-        return {
-            //Concatenate the new item into both the myStoreItem state, and the storeItem state
-            myStoreItem: [...state.myStoreItem, action.newFeed],
-            storeItems: [...state.storeItems, action.newFeed]
-        };
-    case 'ITEM_DELETE':
-        //Returns the state, without the item that has the id we passed here
-        return state.filter(({ id }) => id !== action.removedItem);
-    case 'ITEM_UPDATE':
-        return {
-            //Concatenate the edited item into both the myStoreItem state, and the storeItem state
-            myStoreItem: [...state.myStoreItem,action.newFeed],
-            storeItems: [...state.storeItems, action.newFeed]
-        };
     case 'ADD_MY_STORE_ITEM': 
         return { 
             ...state,
@@ -55,7 +40,7 @@ export function reducerItem(state =
                 timeofSold: action.timeofSold
             }
         };
-        case 'EXCHANGE_RATE':
+    case 'EXCHANGE_RATE':
         return {
             ...state,
                 exchangeRate: action.exchangeRate

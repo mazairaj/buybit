@@ -170,31 +170,7 @@ export function deleteItem(userId, ethAmount, itemId) {
     };
 }
 
-export function buyItem(userId, ethAmount, itemId) {
-    return dispatch => {
-    	fetch(Environment.SERVER + 'buyItem', {
-    		method: 'POST',
-    		headers: {
-    			'Content-Type' : 'application/json'
-    		},
-    		body: JSON.stringify({
-                userId: userId,
-                ethAmount: ethAmount,
-		        itemId: itemId
-            })	        
-		}).then((response) => response.json())
-		    .then((responseJson) => {
-		    	var itemObject = Object.assign({}, responseJson);
-                dispatch(item_purchase(itemObject.timeofSold));
-                dispatch(loginActions.updateUser(newuserObject));
-		}).catch((err) => {
-                dispatch(errors(err))
-        });
-    };
-}
-
 //functions for Item Create, Update, Delete, Purchase
-
 function item_create(itemObject) {
     return {
         type: 'ADD_MY_STORE_ITEM',

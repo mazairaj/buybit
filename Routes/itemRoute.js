@@ -19,7 +19,6 @@ router.get('/storeLookUp', function(req,res){
 
 //purchased item lookup
 router.get('/myPurchasedItem', function(req,res){
-
     Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items){
         if(err) {return err}
         res.send(items)
@@ -99,33 +98,6 @@ router.post('/deleteItem', function(req, res){
     });
 });
 
-router.post('/buyItem', function(req, res) {
-    // req.body.id
-    Item.findById(req.body.itemId, function(err, item){ 
-    	if (err) return res.send(500, { error: err });
-
-    	if (!item) { 
-	        console.log("no item");
-	        return null
-    	}
-
-    	newEthAmount = (req.body.ethAmount - item.itemPrice) * 0.99;
-    	if(newEthAmount < 0){
-    		console.log("can't purchase item, too expensive");
-    		res.send(err);
-    		return err
-    	}
-
-    	User.findByIdAndUpdate(req.body.userId, {'ethAmount': req.body.itemPrice}, function(err, user){
-
-    		item.isItemSold = true;
-    		item.save(function(err, item) {
-                if (err) 
-                    return (err, null);
-                console.log(item);
-                res.send(item);
-                return (err, null);
-            });
 router.post('/checkOutCart', function(req, res) {
     
     Item.update({'_id' : {'$in': req.body.itemIds}}, { "$set": {"isItemSold": true, "timeofSold": Date.now()}}, {multi:true}).exec()
