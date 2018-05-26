@@ -129,29 +129,6 @@ export function deleteItem(userId, ethAmount, itemId) {
     };
 }
 
-export function buyItem(userId, ethAmount, itemId) {
-    return dispatch => {
-    	fetch(Enviroment.SERVER + 'buyItem', {
-    		method: 'POST',
-    		headers: {
-    			'Content-Type' : 'application/json'
-    		},
-    		body: JSON.stringify({
-                userId: userId,
-                ethAmount: ethAmount,
-		        itemId: itemId
-            })	        
-		}).then((response) => response.json())
-		    .then((responseJson) => {
-		    	var itemObject = Object.assign({}, responseJson);
-                dispatch(item_purchase(itemObject.timeofSold));
-                dispatch(loginActions.updateUser(newuserObject));
-		}).catch((err) => {
-                dispatch(errors(err))
-        });
-    };
-}
-
 function item_create(itemObject) {
     return {
         type: 'ADD_MY_STORE_ITEM',
@@ -175,9 +152,9 @@ function item_delete(item_purchase_id) {
     };
 }
 
-function item_purchase(timeofSold) {
+function add_item_purchase(timeofSold) {
     return {
-        type: 'ITEM_PURCHASE',
+        type: 'ADD_MY_PURCHASE_ITEM',
         timeofSold
     };
 }

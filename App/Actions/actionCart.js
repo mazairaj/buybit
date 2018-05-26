@@ -1,4 +1,6 @@
 import * as actionItem from './actionItem';
+import * as actionLogin from './actionLogin';
+
 
 //Cart - add. update, remove
 export function addItemCart(itemObject) {
@@ -21,7 +23,7 @@ export function removeItemCart(item) {
 }
 
 export function buyItem(itemId, exchangeRate, myethAmount) {
-    checkOutCart(itemId, exchangeRate, myethAmount)
+    checkOutCart([itemId], exchangeRate, myethAmount)
 }
 
 export function checkOutCart(itemIds, exchangeRate, myethAmount) {
@@ -39,12 +41,9 @@ export function checkOutCart(itemIds, exchangeRate, myethAmount) {
         }).then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson){
+                    var userObject = Object.assign({}, responseJson);
                     dispatch(check_out_cart())
-                    //need to update mypurchaseitem state in store
-                    dispatch(actionItem.my_purchase_item(itemIds))
-                    //need to update storeItems state in store - waiting for Eva
-                    // dispatch(actionItem.)
-
+                    dispatch(actionLogin.updateUser(userObject))
                 }else{
                    dispatch(errors("No Responses!")) 
                 }

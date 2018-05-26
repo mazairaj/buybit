@@ -80,13 +80,6 @@ export function updateUser(userObject){
     };
 }
 
-export function updateUserItem(itemID){
-    return {
-        type: 'USER_ITEMLIST_UPDATE',
-        itemID
-    }
-}
-
 function attempt() {
     return {
         type: 'LOADING'

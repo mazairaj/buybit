@@ -19,10 +19,6 @@ router.get('/storeLookUp', function(req,res){
 
 //purchased item lookup
 router.get('/myPurchasedItem', function(req,res){
-    //time filter later
-    // var today = moment().startOf('day')
-    // var tomorrow = moment(today).add(1, 'days')
-    
     Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items){
         if(err) {return err}
         res.send(items)
@@ -32,10 +28,6 @@ router.get('/myPurchasedItem', function(req,res){
 
 //Item I am selling lookup
 router.get('/myStoreLookUp', function(req,res){
-    //time filter later
-    // var today = moment().startOf('day')
-    // var tomorrow = moment(today).add(1, 'days')
-
     Item.find({"itemCreator": req.body.userId}, function(err, items){
         if(err) {return err}
 
@@ -104,51 +96,6 @@ router.post('/deleteItem', function(req, res){
     });
 });
 
-
-router.post('/buyItem', function(req, res) {
-    // req.body.id
-    Item.findById(req.body.itemId, function(err, item){ 
-    	if (err) return res.send(500, { error: err });
-
-    	if (!item) { 
-	        console.log("no item");
-	        return null
-    	}
-
-    	newEthAmount = (req.body.ethAmount - item.itemPrice) * 0.99;
-    	if(newEthAmount < 0){
-    		console.log("can't purchase item, too expensive");
-    		res.send(err);
-    		return err
-    	}
-
-    	User.findByIdAndUpdate(req.body.userId, {'ethAmount': req.body.itemPrice}, function(err, user){
-
-    		item.isItemSold = true;
-    		item.save(function(err, item) {
-                if (err) 
-                    return (err, null);
-                console.log(item);
-                res.send(item)
-                return (err, null);
-            });
-
-    		if (err) return res.send(500, { error: err });
-
-    		user.myPurchaseItem = [...[item._id.toString()], ...user.myPurchaseItem]
-
-    		user.save(function(err){
-				if (err) {
-				console.log('error has occur: ',  err)
-				}
-				console.log('Nice, item added in the user model')
-			});
-
-    		console.log("You purchase the item!")
-    	});
-    });
-});
-
 router.post('/checkOutCart', function(req, res) {
     
     Item.update({'_id' : {'$in': req.body.itemIds}}, { "$set": {"isItemSold": true, "timeofSold": Date.now()}}, {multi:true}).exec()
@@ -164,6 +111,7 @@ router.post('/checkOutCart', function(req, res) {
                 if (err) {
                 console.log('error has occur: ',  err)
                 }
+                res.send(user)
                 console.log('Nice, item added in the user model')
             });
 

@@ -71,7 +71,7 @@ passport.deserializeUser(function(id, done) {
 
 app.use('/', userRoute);
 app.use('/', itemRoute);
-app.use('/', testingRoute);
+app.use('/test', testingRoute);
 
 var port = process.env.PORT || 8080;
 http.listen(port, function() {
