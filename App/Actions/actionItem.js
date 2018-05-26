@@ -1,5 +1,5 @@
 import * as actionLogin from './actionLogin';
-const Environment = require('../Environment.js')
+const Environment = require('../Environment.js');
 
 //store - look up, filter actions
 export function storeLookUp() {
@@ -12,7 +12,7 @@ export function storeLookUp() {
         }).then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson){
-                    console.log(responseJson)
+                    console.log(responseJson);
                     var storeItems = JSON.parse(responseJson);
                     dispatch(store_look_up(storeItems));
                 }else{
@@ -34,7 +34,7 @@ export function myPurchasedItem() {
         }).then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson){
-                    console.log(responseJson)
+                    console.log(responseJson);
                     var myPurchasedItem = JSON.parse(responseJson);
                     dispatch(my_purchase_item(myPurchasedItem));
                 }else{
@@ -56,7 +56,7 @@ export function myStoreLookUp() {
         }).then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson){
-                    console.log(responseJson)
+                    console.log(responseJson);
                     var myStoreItem = JSON.parse(responseJson);
                     dispatch(my_store_look_up(myStoreItem));
                 }else{
@@ -230,14 +230,14 @@ export function exchangeRate(currency) {
         }).then((response) => response.json())
     .then((responseJson) => {
             if(responseJson){
-                console.log(responseJson)
+                console.log(responseJson);
                 var exchangeRate = JSON.parse(responseJson);
                 dispatch(exchange_rate(exchangeRate));
             }else{
-                dispatch(errors("No Responses!"))
+                dispatch(errors("No Responses!"));
     }
     }).catch((err) => {
-            dispatch(errors(err))
+            dispatch(errors(err));
     });
 
     };
