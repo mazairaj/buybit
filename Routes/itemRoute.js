@@ -23,11 +23,12 @@ router.get('/myPurchasedItem', function(req,res){
     // var today = moment().startOf('day')
     // var tomorrow = moment(today).add(1, 'days')
 
-    Item.find({'_id' : {'$in': req.body.myPurchasedItem}}).populate({
-        path: 'itemCreator'
-    }).exec(function(err, items){
-        if(err) {return err}
-        res.send(items)
+
+    Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items) {
+        if (err) {
+            return err
+        }
+        res.send(items);
         return items
     });
 });
@@ -41,7 +42,7 @@ router.get('/myStoreLookUp', function(req,res){
     Item.find({"itemCreator": req.body.userId}, function(err, items){
         if(err) {return err}
 
-        res.send(items)
+        res.send(items);
         return items
     });
 });
@@ -69,14 +70,15 @@ router.post('/createItem', function(req, res){
         	return err;
         }
 
+        //Save id of item into user db
         user.findById(itemObject.itemCreator, function(err, user){
         	// user.myItems = [...[item._id.toString()],..user.myItems]
-        	user.myItems = [...[item._id.toString()],...user.myItems]
+        	user.myItems = [...item._id.toString(),user.myItems];
         	user.save(function(err, user) {
         		if (err){
         			return err
         		}
-        		console.log("user's myitem is updated!")
+        		console.log("user's myitem is updated!");
         	})
         });
 
@@ -86,7 +88,7 @@ router.post('/createItem', function(req, res){
     });
 });
 
-router.put('/editedItem', function(req, res){
+router.put('/updateItem', function(req, res){
     // render the /tesItem.updatets view
     Item.findOneAndUpdate({_id: req.body.itemID}, req.body.data, function(err, doc){
         if (err){
@@ -105,7 +107,6 @@ router.post('/deleteItem', function(req, res){
         return res.send("Item Deleted");
     });
 });
-
 
 router.post('/buyItem', function(req, res) {
     // req.body.id
@@ -131,7 +132,7 @@ router.post('/buyItem', function(req, res) {
                 if (err) 
                     return (err, null);
                 console.log(item);
-                res.send(item)
+                res.send(item);
                 return (err, null);
             });
 
@@ -145,7 +146,6 @@ router.post('/buyItem', function(req, res) {
 				}
 				console.log('Nice, item added in the user model')
 			});
-
     		console.log("You purchase the item!")
     	});
     });

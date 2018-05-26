@@ -1,5 +1,5 @@
 import { AsyncStorage} from 'react-native'
-const Environment = require('../Environment.js')
+const Environment = require('../Environment.js');
 
 export function login(userObject) {
     return dispatch => {
@@ -40,7 +40,7 @@ export function signup(userObject) {
         }).then((response) => response.json())
 		    .then((responseJson) => {
 		    	var userObject = Object.assign({}, responseJson);
-                dispatch(userLogin(userObject));
+                dispatch(signup(userObject));
 		}).catch((err) => {
                 dispatch(errors(err))
         });
@@ -66,6 +66,7 @@ export function update(userObject) {
         });
     };
 }
+
 
 export function logout() {
     return {
