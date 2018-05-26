@@ -23,7 +23,9 @@ router.get('/myPurchasedItem', function(req,res){
     // var today = moment().startOf('day')
     // var tomorrow = moment(today).add(1, 'days')
 
-    Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items){
+    Item.find({'_id' : {'$in': req.body.myPurchasedItem}}).populate({
+        path: 'itemCreator'
+    }).exec(function(err, items){
         if(err) {return err}
         res.send(items)
         return items

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {StyleSheet,
-Text, View, Image, TouchableOpacity, TextInput, ActionSheetIOS } from 'react-native';
-import {Button, Switch} from 'native-base';
+Text, View, Image, TouchableOpacity, TextInput, ActionSheetIOS, ScrollView } from 'react-native';
+import {Button, Switch, Header} from 'native-base';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import * as actionLogin from '../../Actions/actionLogin';
 
 class userForm extends Component {
+
   constructor (props) {
     super(props);
     this.state = {
@@ -20,6 +21,12 @@ class userForm extends Component {
         passwordRepeat: '',
     };
   }
+  static navigationOptions = {
+    // headerTitle instead of title
+    header: <Header style={{backgroundColor: "#21CE99"}}>
+        <Text style={{fontSize: 24, color: '#fff', marginLeft: 10, fontWeight: 'bold'}}>Login</Text>
+  </Header>,
+  };
   toggleRoute (e) {
         let alt = (this.state.route === 'Login') ? 'signUp' : 'Login';
         this.setState({ route: alt });
@@ -41,7 +48,7 @@ class userForm extends Component {
   render() {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
     return(
-      <ScrollView style={{padding: 20}}>
+      <ScrollView style={styles.container}>
         <Text style={{fontSize: 27}}>{this.state.route}</Text>
         {alt ? (
           <TextInput 
@@ -97,7 +104,14 @@ class userForm extends Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    // backgroundColor: '#21CE99',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 
 });
 

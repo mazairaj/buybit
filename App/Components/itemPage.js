@@ -49,7 +49,7 @@ class MarketPlace extends Component {
       return (
         <ListView
         dataSource = {storeItems}
-        // renderHeader = {() => <Text>Popular</Text>} //Render CreatePost first
+        renderHeader = {() => <Text>Popular</Text>} //Render CreatePost first
         renderRow={(val, i) => {
           var even = (i === 0 || !!(i && !(i%2)));
           return (
@@ -71,7 +71,7 @@ class MarketPlace extends Component {
           { storeItems.length > 0 ? 
             <ListView
               dataSource = {dataSource}
-              // renderHeader = {() => <Text>Popular</Text>} //Render CreatePost first
+              renderHeader = {() => <Text>Popular</Text>} //Render CreatePost first
               renderRow={(val, i) => {
                 var even = (i === 0 || !!(i && !(i%2)));
                 return (

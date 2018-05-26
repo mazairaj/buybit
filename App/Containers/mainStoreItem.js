@@ -16,45 +16,9 @@ export default class MainStoreCard extends Component {
 
         };
     }
-    returnEven() {
-        return (
-            <CardItem>
-            <Image style={{flex: '1 0',}} source={{uri: 'https://scontent.fmia1-2.fna.fbcdn.net/v/t1.0-9/15966063_10208225199250929_8665281952004263846_n.jpg?_nc_cat=0&oh=4a5e47fe7ecf061402e1a83596b5b226&oe=5B90CABA'}} style={{height: 200, width: null, flex: 1}}/>
-            <View style={{flex: 1}}>
-              <View style={styles.itemInformation}>
-                <Text>Item title</Text>
-                <Text note>Item Description</Text>
-                <Text>$100</Text>
-              </View>
-              <View style={styles.itemInformation}>
-                <Button rounded success>
-                    <Text>Shop Now</Text>
-                </Button>
-              </View>
-            </View>
-            </CardItem>
-        )
-    }
-    returnOdd() {
-        return (
-            <CardItem>
-            <View style={{flex: 1}}>
-              <View style={styles.itemInformation}>
-                <Text>Item title</Text>
-                <Text note>Item Description</Text>
-                <Text>$100</Text>
-              </View>
-              <View style={styles.itemInformation}>
-                <Button rounded success>
-                    <Text>Shop Now</Text>
-                </Button>
-              </View>
-            </View>
-            <Image style={{flex: '1 0',}} source={{uri: 'https://scontent.fmia1-2.fna.fbcdn.net/v/t1.0-9/15966063_10208225199250929_8665281952004263846_n.jpg?_nc_cat=0&oh=4a5e47fe7ecf061402e1a83596b5b226&oe=5B90CABA'}} style={{height: 200, width: null, flex: 1}}/>
-            </CardItem>
-        )
-    }
     render() {
+      var {item} = this.props
+      console.log("ITEM", item)
         return (
             <Card>
             <CardItem>
@@ -72,17 +36,14 @@ export default class MainStoreCard extends Component {
                 </Right>
               </CardItem>
               <CardItem>
-                <Image style={{flex: '1 0',}} source={{uri: 'https://scontent.fmia1-2.fna.fbcdn.net/v/t1.0-9/15966063_10208225199250929_8665281952004263846_n.jpg?_nc_cat=0&oh=4a5e47fe7ecf061402e1a83596b5b226&oe=5B90CABA'}} style={{height: 200, width: null, flex: 1}}/>
+                <Image source={{uri: "https://upload.wikimedia.org/wikipedia/commons/8/84/Example.svg"}} style={{height: 200, width: null, flex: 1}}/>
                 <View style={{flex: 1}}>
                   <View style={styles.itemInformation}>
-                    <Text>Item title</Text>
-                    <Text note>Item Description</Text>
-                    <Text>$100</Text>
-                  </View>
+                    <Text>${item.itemPriceUSD}</Text>
+                    <Text>Price in ETH</Text>
+                  </View >
                   <View style={styles.itemInformation}>
-                    <Button rounded success>
-                        <Text>Shop Now</Text>
-                    </Button>
+                    <Text note>"100% on rotten tomatoes"</Text>
                   </View>
                 </View>
               </CardItem>
