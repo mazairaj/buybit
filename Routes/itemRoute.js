@@ -22,12 +22,12 @@ router.get('/myPurchasedItem', function(req,res){
     //time filter later
     // var today = moment().startOf('day')
     // var tomorrow = moment(today).add(1, 'days')
-
+    
     Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items){
         if(err) {return err}
         res.send(items)
         return items
-    }});
+    });
 });
 
 //Item I am selling lookup
@@ -168,7 +168,6 @@ router.post('/checkOutCart', function(req, res) {
             });
 
             console.log("You purchase the items!")
-        });
     });
 });
 

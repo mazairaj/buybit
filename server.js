@@ -16,7 +16,7 @@ const userRoute = require('./Routes/userRoute');
 const itemRoute = require('./Routes/itemRoute');
 
 //testing routes
-const testingRoute = require('./Routes/testRoute');
+const testingRoute = require('./Routes/Test/testRoute');
 
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true}));

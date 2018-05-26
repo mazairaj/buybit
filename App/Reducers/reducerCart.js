@@ -2,17 +2,15 @@ export function reducerItem(state =
   {cart: null}, action) {
     switch (action.type) {
     case 'ADD_CART_ITEM': 
-        return Object.assign(feedObject, state, {
-            storeItems: action.newFeed
-        });
+       return { 
+            ...state,
+            cart: [...state.cart, action.itemObject]
+        }
     case 'DELETE_CART_ITEM':
-        return Object.assign({}, state, {
-
-        });
-    case 'UPDATE_CART_ITEM':
-        return Object.assign({}, state, {
-
-        });
+        return { 
+            ...state,
+            cart: state.cart.filter(item => item._id !== action.indexRemove)
+        }
     case 'CART_CHECKOUT':
         return {
             cart: null
