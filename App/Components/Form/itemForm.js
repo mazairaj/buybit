@@ -19,7 +19,6 @@ var BUTTONS = [
   'Cancel',
 ];
 
-
 class itemForm extends Component {
   constructor (props) {
     super(props);

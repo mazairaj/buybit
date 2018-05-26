@@ -19,26 +19,16 @@ router.get('/storeLookUp', function(req,res){
 
 //purchased item lookup
 router.get('/myPurchasedItem', function(req,res){
-    //time filter later
-    // var today = moment().startOf('day')
-    // var tomorrow = moment(today).add(1, 'days')
 
-
-    Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items) {
-        if (err) {
-            return err
-        }
-        res.send(items);
+    Item.find({'_id' : {'$in': req.body.myPurchasedItem}}, function(err, items){
+        if(err) {return err}
+        res.send(items)
         return items
     });
 });
 
 //Item I am selling lookup
 router.get('/myStoreLookUp', function(req,res){
-    //time filter later
-    // var today = moment().startOf('day')
-    // var tomorrow = moment(today).add(1, 'days')
-
     Item.find({"itemCreator": req.body.userId}, function(err, items){
         if(err) {return err}
 
@@ -74,6 +64,7 @@ router.post('/createItem', function(req, res){
         user.findById(itemObject.itemCreator, function(err, user){
         	// user.myItems = [...[item._id.toString()],..user.myItems]
         	user.myItems = [...item._id.toString(),user.myItems];
+        	user.mySellingItem = [...[item._id.toString()], ...user.mySellingItem]
         	user.save(function(err, user) {
         		if (err){
         			return err
@@ -89,7 +80,7 @@ router.post('/createItem', function(req, res){
 });
 
 router.put('/updateItem', function(req, res){
-    // render the /tesItem.updatets view
+
     Item.findOneAndUpdate({_id: req.body.itemID}, req.body.data, function(err, doc){
         if (err){
         	return res.send(500, { error: err });
@@ -99,7 +90,7 @@ router.put('/updateItem', function(req, res){
 });
 
 router.post('/deleteItem', function(req, res){
-    // render the /tests view
+    // Not completed
     Item.findByIdAndRemove({_id: req.body.itemID}, function(err, doc){
         if (err){
             return res.send(500, { error: err });
@@ -135,20 +126,29 @@ router.post('/buyItem', function(req, res) {
                 res.send(item);
                 return (err, null);
             });
+router.post('/checkOutCart', function(req, res) {
+    
+    Item.update({'_id' : {'$in': req.body.itemIds}}, { "$set": {"isItemSold": true, "timeofSold": Date.now()}}, {multi:true}).exec()
 
-    		if (err) return res.send(500, { error: err });
+    //update user wallet in the backend
+    var newEthAmount = req.body.ethAmount - req.body.totalUSDPrice * exchangeRate
 
-    		user.myItems = [...[item._id.toString()], ...user.myItems]
+    User.findByIdAndUpdate(req.body.userId, {'ethAmount': newEthAmount}, function(err, user){
 
-    		user.save(function(err){
-				if (err) {
-				console.log('error has occur: ',  err)
-				}
-				console.log('Nice, item added in the user model')
-			});
-    		console.log("You purchase the item!")
-    	});
+            user.myPurchasedItem = [...req.body.itemIds, ...user.myPurchasedItem]
+
+
+            user.save(function(err){
+                if (err) {
+                console.log('error has occur: ',  err)
+                }
+                res.send(user)
+                console.log('Nice, item added in the user model')
+            });
+
+            console.log("You purchase the items!")
     });
 });
+
 
 module.exports = router;

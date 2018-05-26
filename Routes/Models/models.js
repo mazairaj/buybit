@@ -43,6 +43,7 @@ var itemSchema = new mongoose.Schema({
     trim: true,
     required: true
   },
+  itemQuantity: {type: Number, default: 1},
   itemImage: String,
   itemReview: Number,
   isItemSold: {

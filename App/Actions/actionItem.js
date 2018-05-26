@@ -37,7 +37,7 @@ export function myPurchasedItem() {
                 if(responseJson){
                     console.log(responseJson)
                     var myPurchasedItem = JSON.parse(responseJson);
-                    dispatch(my_purchase_item(myPurchasedItem));
+                    dispatch(my_purchase_item(myPurchasedItemsId));
                 }else{
                    dispatch(errors("No Responses!")) 
                 }
@@ -78,7 +78,7 @@ function store_look_up(storeItems) {
     };
 }
 
-function my_purchase_item(myPurchasedItem) {
+export function my_purchase_item(myPurchasedItem) {
     return {
         type: 'MY_PURCHASE_ITEM',
         myPurchasedItem
@@ -107,8 +107,10 @@ export function createItem(itemObject) {
             .then((responseJson) => {
                 if(responseJson){
                     var itemObject = [...responseJson];
-                    //State update for both user and store
+
                     dispatch(item_create(itemObject));
+                    //update myStoreItems
+                    dispatch(actionLogin.updateUserItem(itemObject._id))
                 }else{
                    dispatch(errors("No Responses!")) 
                 }
@@ -192,30 +194,34 @@ export function buyItem(userId, ethAmount, itemId) {
 }
 
 //functions for Item Create, Update, Delete, Purchase
+
 function item_create(itemObject) {
     return {
-        type: 'ITEM_CREATE',
-        newFeed
+        type: 'ADD_MY_STORE_ITEM',
+        itemObject
     };
 }
 
-function item_update(item_purchase_id) {
+//Eva
+function item_update(itemObject) {
     return {
-        type: 'ITEM_UPDATE',
-        editItem
+        type: 'UPDATE_MY_STORE_ITEM',
+        itemObject
     };
 }
 
+//Eva
 function item_delete(item_purchase_id) {
     return {
-        type: 'ITEM_DELETE',
-        removedItem
+
+        type: 'DELETE_MY_STORE_ITEM',
+        item_purchase_id
     };
 }
 
-function item_purchase(timeofSold) {
+function add_item_purchase(timeofSold) {
     return {
-        type: 'ITEM_PURCHASE',
+        type: 'ADD_MY_PURCHASE_ITEM',
         timeofSold
     };
 }
