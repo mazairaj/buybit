@@ -9,14 +9,14 @@ import configureStore from '../store';
 //   setCustomText,
 // } from 'react-native-global-props';
 
-import MarketPlace  from '../Components/marketplace'
+// import MarketPlace  from '../Components/marketplace'
 import userForm from '../Components/Form/loginForm'
 
 const store = configureStore();
 const RootStack = createStackNavigator(
   {
     Login: userForm,
-    Market: MarketPlace,
+    // Market: MarketPlace,
   },
   {
     initialRouteName: 'Login',

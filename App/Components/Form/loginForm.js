@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {StyleSheet,
 Text, View, Image, TouchableOpacity, TextInput, ActionSheetIOS, ScrollView } from 'react-native';
-import {Button, Switch, Header} from 'native-base';
+import {Button, Switch, Header, Right} from 'native-base';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,7 +24,6 @@ class userForm extends Component {
   static navigationOptions = {
     // headerTitle instead of title
     header: <Header style={{backgroundColor: "#21CE99"}}>
-        <Text style={{fontSize: 24, color: '#fff', marginLeft: 10, fontWeight: 'bold'}}>Login</Text>
   </Header>,
   };
   toggleRoute (e) {
