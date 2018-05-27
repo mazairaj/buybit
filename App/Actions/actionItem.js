@@ -120,7 +120,7 @@ export function createItem(itemObject) {
     };
 }
 
-export function updateItem(userId, ethAmount, itemId) {
+export function updateItem(itemId) {
     return dispatch => {
         fetch(Enviroment.SERVER + 'updateItem', {
             method: 'POST',
@@ -128,24 +128,24 @@ export function updateItem(userId, ethAmount, itemId) {
                 'Content-Type' : 'application/json'
             },
             body: JSON.stringify({
-                itemObject: itemObject
+                itemId: itemId
             })
         }).then((response) => response.json())
-    .then((responseJson) => {
-            if(responseJson){
-                var itemObject = [...responseJson];
-                //State update for both user and store
-                dispatch(item_update(itemObject));
-            }else{
-                dispatch(errors("No Responses!"))
-    }
+            .then((responseJson) => {
+                    if(responseJson){
+                        var itemObject = [...responseJson];
+                        //State update for both user and store
+                        dispatch(item_update(itemObject));
+                    }else{
+                        dispatch(errors("No Responses!"))
+            }
     }).catch((err) => {
             dispatch(errors(err))
     });
     };
 }
 
-export function deleteItem(userId, ethAmount, itemId) {
+export function deleteItem(itemId) {
     return dispatch => {
         fetch(Enviroment.SERVER + 'deleteItem', {
             method: 'POST',
@@ -153,17 +153,17 @@ export function deleteItem(userId, ethAmount, itemId) {
                 'Content-Type' : 'application/json'
             },
             body: JSON.stringify({
-                itemObject: itemObject
+                itemId: itemId
             })
         }).then((response) => response.json())
-    .then((responseJson) => {
-            if(responseJson){
-                var itemObject = [...responseJson];
-                dispatch(item_delete(itemObject._id));
-               // dispatch(actionLogin.deleteUserItem(itemObject._id))
-            }else{
-                dispatch(errors("No Responses!"))
-    }
+            .then((responseJson) => {
+                    if(responseJson){
+                        var itemObject = [...responseJson];
+                        dispatch(item_delete(itemObject._id));
+                       // dispatch(actionLogin.deleteUserItem(itemObject._id))
+                    }else{
+                        dispatch(errors("No Responses!"))
+                    }
     }).catch((err) => {
             dispatch(errors(err))
     });
@@ -203,39 +203,35 @@ function add_item_purchase(timeofSold) {
 }
 
 //get exchange ratio
-
 export function exchangeRate(currency) {
     return dispatch => {
         // "Enviroment.server = http:local:8080/"
         fetch(Enviroment.SERVER + 'getExchange', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'
             }
         }).then((response) => response.json())
-    .then((responseJson) => {
-            if(responseJson){
-                console.log(responseJson)
-                var exchangeRate = JSON.parse(responseJson);
-                dispatch(exchange_rate(exchangeRate));
-            }else{
-                dispatch(errors("No Responses!"))
-    }
+            .then((responseJson) => {
+                    if(responseJson){
+                        console.log(responseJson)
+                        var exchangeRate = JSON.parse(responseJson).exchangeRate;
+                        dispatch(exchange_rate(exchangeRate));
+                    }else{
+                        dispatch(errors("No Responses!"))
+            }
     }).catch((err) => {
             dispatch(errors(err))
     });
-
     };
 }
 
 //function for exchange_rate
-
 function exchange_rate(exchangeRate) {
     return {
         type: 'EXCHANGE_RATE',
         exchangeRate
     };
-
 }
 
 function errors(err) {
@@ -244,8 +240,3 @@ function errors(err) {
         err
     };
 }
-
-// router.get('/getExchange'){
-//     .......
-//     res.send(exchangeRate)
-// }

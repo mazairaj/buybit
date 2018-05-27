@@ -26,7 +26,7 @@ export function buyItem(itemId, exchangeRate, myethAmount) {
     checkOutCart([itemId], exchangeRate, myethAmount)
 }
 
-export function checkOutCart(itemIds, exchangeRate, myethAmount) {
+export function checkOutCart(itemIds, totalItemAmountinUSD, exchangeRate, myethAmount) {
     return dispatch => {
         fetch(Enviroment.SERVER + 'checkOutCart', {
             method: 'POST',
@@ -34,18 +34,22 @@ export function checkOutCart(itemIds, exchangeRate, myethAmount) {
                 'Content-Type' : 'application/json'
             },
             body: JSON.stringify({
-                itemIDs : itemIds,
+                itemIds : itemIds,
                 exchangeRate: exchangeRate,
-                myethAmount: myethAmount            
+                myethAmount: myethAmount,
+                totalItemAmountinUSD: totalItemAmountinUSD           
             })
         }).then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson){
                     var userObject = Object.assign({}, responseJson);
                     dispatch(check_out_cart())
+                    //update user's my purchase item list
                     dispatch(actionLogin.updateUser(userObject))
+                    // need to update store item base of quantity
+                    // will add later
                 }else{
-                   dispatch(errors("No Responses!")) 
+                   dispatch(errors(responseJson)) 
                 }
         }).catch((err) => {
                 dispatch(errors(err))
