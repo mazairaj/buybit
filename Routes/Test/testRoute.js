@@ -4,7 +4,7 @@ var router = express.Router();
 var User = require('../Models/models').User;
 var Item = require('../Models/models').Item;
 
-Testing route
+//Testing route
 router.post('/buyItemTest', function(req, res) {
     // req.body.id
     Item.findById(req.body.itemId, function(err, item){ 
