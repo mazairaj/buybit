@@ -9,7 +9,7 @@ export function reducerItem(state =
         return Object.assign({}, state, {
             myPurchasedItem: action.myPurchasedItem
         });
-    case "ADD_MY_PURCHASE_ITEM"
+    case "ADD_MY_PURCHASE_ITEM":
         return { 
             ...state,
             myPurchasedItem: [...state.myPurchasedItem, action.myPurchasedItem]

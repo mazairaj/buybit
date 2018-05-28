@@ -21,14 +21,24 @@ class userForm extends Component {
         passwordRepeat: '',
     };
   }
-  static navigationOptions = {
+  componentWillMount(){
+    const {setParams} = this.props.navigation;
+    setParams({state: "Login"});
+  }
+
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+    console.log("HEY NOW", this)
     // headerTitle instead of title
-    header: <Header style={{backgroundColor: "#21CE99"}}>
-  </Header>,
+    return {
+    header: (
+      <Header style={{backgroundColor: "#21CE99"}}>
+        <Right style={{alignSelf:"flex-end", marginBottom: 5, color: '#fff'}}><TouchableOpacity ><Text style={{color: '#fff'}}>"HEY</Text></TouchableOpacity></Right>
+    </Header> ),
+    }
   };
   toggleRoute (e) {
-        let alt = (this.state.route === 'Login') ? 'signUp' : 'Login';
-        this.setState({ route: alt });
+    this.setState({route: ( this.state.route === 'Login') ? 'signUp' : 'Login'});
         e.preventDefault();
   }
   userLogin (e) {
@@ -47,9 +57,13 @@ class userForm extends Component {
   render() {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
     return(
-      <ScrollView style={styles.container}>
+      // <ScrollView style={styles.scrollContainer}>
+      <View style={styles.container}>
+        <Header style={{backgroundColor: "#21CE99"}}>
+          <Right style={{alignSelf:"flex-end", marginBottom: 5, color: '#fff'}}><TouchableOpacity onPress={(e) => this.toggleRoute(e).bind(this)}><Text style={{color: '#fff'}}>{this.state.route}</Text></TouchableOpacity></Right>
+        </Header>
         <Text style={{fontSize: 27}}>{this.state.route}</Text>
-        {alt ? (
+        {alt === "Login" ? (
           <TextInput 
             placeholder='First Name'
             autoCapitalize='none'
@@ -58,7 +72,7 @@ class userForm extends Component {
             value={this.state.firstName} 
             onChangeText={(text) => this.setState({ firstName: text })} />
           ) : (null)}
-        {alt ? (
+        {alt === "Login" ? (
           <TextInput 
             placeholder='Last Name'
             autoCapitalize='none'
@@ -82,7 +96,7 @@ class userForm extends Component {
             secureTextEntry={true} 
             value={this.state.password} 
             onChangeText={(text) => this.setState({ password: text })} />
-        {alt ? (
+        {alt === "Login" ? (
           <TextInput 
             placeholder='Repeat Password'
             autoCapitalize='none'
@@ -92,18 +106,24 @@ class userForm extends Component {
             onChangeText={(text) => this.setState({ passwordRepeat: text })} />
           ) : (null)}
         <View style={{margin: 7}}/>
-        {alt ? ( 
-          <Button onPress={(e) => this.userLogin(e)} title={this.state.route}/>
+        {alt === "SignUp" ? ( 
+          <Button onPress={(e) => this.userLogin(e)} title={this.state.route}></Button>
         ) : (
           <Button onPress={(e) => this.userSignup(e)} title={this.state.route}/>
         )}
-        <Text style={{fontSize: 16, color: 'blue'}} onPress={(e) => this.toggleRoute(e)}>{alt}</Text>
-      </ScrollView>
+        <Text style={{fontSize: 16, color: 'blue'}} onPress={(e) => this.toggleRoute(e).bind(this)}>{alt}</Text>
+        </View>
+      // </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    // backgroundColor: '#21CE99',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardBodyContainer: {
-    flex: '1 1',
+    flex: 1,
     flexDirection: 'row'
   },
   itemInformation: {

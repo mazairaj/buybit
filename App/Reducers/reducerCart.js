@@ -15,7 +15,6 @@ export function reducerItem(state =
         return {
             cart: null
         }
-    }
     default:
         return state;
     }

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Image, View, StyleSheet, Dimensions, ListView } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base'
+import { Font, AppLoading } from "expo";
 
 import { bindActionCreators } from 'redux';
 import * as storeActions from '../Actions/actionItem';
@@ -16,14 +17,13 @@ var {height, width} = Dimensions.get('window');
 class MarketPlace extends Component {
   static navigationOptions = {
     // headerTitle instead of title
-    header: <Header style={{backgroundColor: "#21CE99"}}>
-    <Left>
+    header: <Header style={{backgroundColor: "#21CE99", height: 90}}>
+    <Left style={{alignSelf:"flex-end",}}>
       <Button transparent>
         <Icon active name="menu" style={{color: "black"}}/>
-        <Text style={{fontStyle: 'italic', fontSize: 24, color: '#fff', marginLeft: 10, fontWeight: 'bold'}}>buyBit</Text>
       </Button>
     </Left>
-    <Right>
+    <Right style={{alignSelf:"flex-end",}}>
       <Button transparent>
         <Icon active name="cart" style={{color: "black"}}/>
       </Button>
@@ -36,6 +36,7 @@ class MarketPlace extends Component {
   constructor(props){
     super(props);
     this.state = {
+      loading: true
 
     };
   }
@@ -44,8 +45,16 @@ class MarketPlace extends Component {
     itemActions.storeLookUp()
 
   }
+  async componentWillMount() {
+    await Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+    });
+    this.setState({ loading: false });
+  }
   conditionalList(items) {
     if (items.length > 0 ) {
+      
       return (
         <ListView
         dataSource = {storeItems}
@@ -65,23 +74,28 @@ class MarketPlace extends Component {
     var storeItems = !!this.props.store.storeItems ? this.props.store.storeItems: [];
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(storeItems);
+    if (this.state.loading) {
     return (
-      <Container style={{backgroundColor: "#fff"}}>
-        <Content>
-          { storeItems.length > 0 ? 
-            <ListView
-              dataSource = {dataSource}
-              // renderHeader = {() => <Text>Popular</Text>} //Render CreatePost first
-              renderRow={(val, i) => {
-                var even = (i === 0 || !!(i && !(i%2)));
-                return (
-                  <MainStoreCard item={val} even={even}/>
-                )
-              }
-              }/> : null }
-        </Content>
-      </Container>
-    );
+        <AppLoading/>
+        )
+      } else{
+        return (
+        <Container style={{backgroundColor: "#fff"}}>
+          <Content>
+            { storeItems.length > 0 ? 
+              <ListView
+                dataSource = {dataSource}
+                renderRow={(val, i) => {
+                  var even = (i === 0 || !!(i && !(i%2)));
+                  return (
+                    <MainStoreCard item={val} even={even}/>
+                  )
+                }
+                }/> : null }
+          </Content>
+        </Container>
+      );
+    }
   }
 }
 function mapStateToProps(state) {
@@ -109,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardBodyContainer: {
-    flex: '1 1',
+    flex: 1,
     flexDirection: 'row'
   },
   itemInformation: {

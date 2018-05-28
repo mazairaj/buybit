@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Image, View, StyleSheet, Dimensions } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base'
+import { Font, AppLoading } from "expo";
 
 
 
@@ -13,12 +14,25 @@ export default class MainStoreCard extends Component {
         // this.returnEven = this.returnEven.bind(this)
         // this.returnOdd = this.returnOdd.bind(this)
         this.state = {
-
+          loading: true
         };
     }
+
+  async componentWillMount() {
+    await Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+    });
+    this.setState({ loading: false });
+  }
     render() {
       var {item} = this.props
       console.log("ITEM", item)
+      if (this.state.loading) {
+        return (
+        <AppLoading/>
+        )
+      } else{
         return (
             <Card>
             <CardItem>
@@ -36,7 +50,7 @@ export default class MainStoreCard extends Component {
                 </Right>
               </CardItem>
               <CardItem>
-                <Image source={{uri: "https://upload.wikimedia.org/wikipedia/commons/8/84/Example.svg"}} style={{height: 200, width: null, flex: 1}}/>
+                <Image source={{uri: `${item.itemImage}`}} style={{height: 200, width: null, flex: 1}}/>
                 <View style={{flex: 1}}>
                   <View style={styles.itemInformation}>
                     <Text>${item.itemPriceUSD}</Text>
@@ -61,6 +75,7 @@ export default class MainStoreCard extends Component {
               </CardItem>
             </Card>
         )
+      }
     }
 }
 const styles = StyleSheet.create({
@@ -71,7 +86,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     cardBodyContainer: {
-      flex: '1 1',
+      flex: 1,
       flexDirection: 'row'
     },
     itemInformation: {
