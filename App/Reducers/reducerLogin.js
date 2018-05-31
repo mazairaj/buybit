@@ -15,23 +15,23 @@ export function reducerLogin(state =
     case 'USER_UPDATE':
         return Object.assign({}, state, {
             userProfile: action.userObject
-        });
-    case 'USER_ITEMLIST_UPDATE':
-        return this.state.userProfile.myItems.push(action.itemID)
+        });   
     case 'LOGOUT':
         return Object.assign({}, state, {
             loading: false,
             loggedIn: false,
             error: null,
-            userProfile, null
+            userProfile: null
         });
-    case 'ERROR': {
+    case 'ERROR': 
         return Object.assign({}, state, {
             loading: false,
             error: action.err
         });
-    }
-
+    case 'USER_ITEMLIST_UPDATE':
+        const newState = { ...state };
+        newState.userProfile.mySellingItem.push(action.itemID)
+        return newState  
     default:
         return state;
     }

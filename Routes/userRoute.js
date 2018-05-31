@@ -63,26 +63,35 @@ router.post('/signup', function(req, res) {
 });
 
 // TODO: return Current user
-router.get('/getUser', function(req, res) {
-    User.findOne({_id: req.body.userID}, function(err, user) {
+router.post('/getUser', function(req, res) {
+    User.findById(req.body.userId, function(err, user) {
             if (err) {
-                return {err, user}
+                res.status(400);
+                res.send(err);
+                return err
             }
             if (user) {
+                res.status(200);
+                res.send(user)
                 return user
             } else {
-              console.log("cannot find user");
-              return null
+                res.status(400);
+                res.send("cannot find user");
+                console.log("cannot find user");
+                return null
             }
         });
 });
 
 // TODO: Edit an user
 router.post('/editUser', function(req, res) {
-    // req.body.id
-    User.findOneAndUpdate({_id: req.body.id}, req.body.data, function(err, doc){
+    console.log(req.body.userId)
+
+    User.findByIdAndUpdate(req.body.userId, req.body.data, function(err, user){
     if (err) return res.send(500, { error: err });
-    return res.send("succesfully saved");
+
+    console.log(user)
+    return res.status(500).send(user)
     });
 });
 

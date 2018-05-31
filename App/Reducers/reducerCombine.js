@@ -1,11 +1,13 @@
 import { reducerLogin } from './reducerLogin';
 import { reducerItem } from './reducerItem';
+import { reducerCart } from './reducerCart';
 
-import { combineReducers } from 'redux-immutable';
+import { combineReducers } from 'redux-immutablejs';
 
 const applicationReducers = {
-	userProfile: loginReducer,
-	store: profileReducer,
+	userProfile: reducerLogin,
+	store: reducerItem,
+	cart: reducerCart
 };
 
 export default function createReducer() {

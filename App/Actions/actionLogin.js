@@ -1,10 +1,10 @@
 import { AsyncStorage} from 'react-native'
-const Environment = require('../Environment.js')
+const Environment = require('../Environment.js');
 
 export function login(userObject) {
     return dispatch => {
         dispatch(attempt());
-    	fetch(Enviroment.SERVER + 'login', {
+    	fetch(Environment.SERVER + 'login', {
     		method: 'POST',
     		headers: {
     			'Content-Type' : 'application/json'
@@ -15,6 +15,7 @@ export function login(userObject) {
             })
 		}).then((response) => response.json())
 		    .then((responseJson) => {
+                console.log(responseJson)
 		    	var userObject = Object.assign({}, responseJson);
                 dispatch(userLogin(userObject));
 		}).catch((err) => {
@@ -25,7 +26,7 @@ export function login(userObject) {
 
 export function signup(userObject) {
     return dispatch => {
-    	fetch(Enviroment.SERVER + 'signup', {
+    	fetch(Environment.SERVER + 'signup', {
     		method: 'POST',
     		headers: {
     			'Content-Type' : 'application/json'
@@ -33,9 +34,9 @@ export function signup(userObject) {
     		body: JSON.stringify({
     			firstName: userObject.firstName,
     			lastName: userObject.lastName,
-		        email: email,
-		        password: password,
-		        passwordRepeat: passwordRepeat
+		        email: userObject.email,
+		        password: userObject.password,
+		        passwordRepeat: userObject.passwordRepeat
 		    })
         }).then((response) => response.json())
 		    .then((responseJson) => {
@@ -49,7 +50,7 @@ export function signup(userObject) {
 
 export function update(userObject) {
     return dispatch => {
-        fetch(Enviroment.SERVER + 'updateUser', {
+        fetch(Environment.SERVER + 'updateUser', {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'
@@ -67,6 +68,7 @@ export function update(userObject) {
     };
 }
 
+
 export function logout() {
     return {
         type: 'LOGOUT'
@@ -78,13 +80,6 @@ export function updateUser(userObject){
         type: 'USER_UPDATE',
         userObject
     };
-}
-
-export function updateUserItem(itemID){
-    return {
-        type: 'USER_ITEMLIST_UPDATE',
-        itemID
-    }
 }
 
 function attempt() {
@@ -103,6 +98,6 @@ function errors(err) {
 function userLogin(userObject) {
     return {
         type: 'LOGIN',
-        userObject
+        userObject: userObject
     };
 }

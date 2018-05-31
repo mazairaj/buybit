@@ -34,7 +34,8 @@ var userSchema = new mongoose.Schema({
 var itemSchema = new mongoose.Schema({
   itemCreator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   itemTitle: String,
-  itemPrice: { type: Number, required: true },
+  itemPriceUSD: {type: Number, required: true},
+  itemPriceETH: { type: Number, required: true },
   itemDescription: String,
   itemCondition: {
     type: String,
@@ -42,6 +43,7 @@ var itemSchema = new mongoose.Schema({
     trim: true,
     required: true
   },
+  itemQuantity: {type: Number, default: 1},
   itemImage: String,
   itemReview: Number,
   isItemSold: {
