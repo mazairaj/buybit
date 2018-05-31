@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
-import { Image, View, StyleSheet, Dimensions, ListView } from 'react-native';
+import { Image, View, StyleSheet, Dimensions, ListView, TouchableOpacity, } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base'
 import { Font, AppLoading } from "expo";
 
@@ -62,7 +62,7 @@ class MarketPlace extends Component {
         renderRow={(val, i) => {
           var even = (i === 0 || !!(i && !(i%2)));
           return (
-            <MainStoreCard item={val} even={even}/>
+            <MainStoreCard item={val} even={even} navigation={this.props.navigation}/>
           )
         }
         }/>
@@ -88,7 +88,7 @@ class MarketPlace extends Component {
                 renderRow={(val, i) => {
                   var even = (i === 0 || !!(i && !(i%2)));
                   return (
-                    <MainStoreCard item={val} even={even}/>
+                    <MainStoreCard item={val} even={even} navigation={this.props.navigation}/>
                   )
                 }
                 }/> : null }

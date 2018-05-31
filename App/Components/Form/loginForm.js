@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {StyleSheet,
 Text, View, Image, TouchableOpacity, TextInput, ActionSheetIOS, ScrollView } from 'react-native';
-import {Button, Switch, Header, Right} from 'native-base';
+import {Button, Switch, Header, Right, Container, Icon} from 'native-base';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -26,42 +26,57 @@ class userForm extends Component {
     setParams({state: "Login"});
   }
 
-  static navigationOptions = ({ navigation }) => {
-    const params = navigation.state.params || {};
-    console.log("HEY NOW", this)
-    // headerTitle instead of title
-    return {
-    header: (
-      <Header style={{backgroundColor: "#21CE99"}}>
-        <Right style={{alignSelf:"flex-end", marginBottom: 5, color: '#fff'}}><TouchableOpacity ><Text style={{color: '#fff'}}>"HEY</Text></TouchableOpacity></Right>
-    </Header> ),
-    }
-  };
+  // static navigationOptions = ({ navigation }) => {
+  //   const params = navigation.state.params || {};
+  //   console.log("HEY NOW", this)
+  //   return {
+  //   header: (
+  //     <Header style={{backgroundColor: "#21CE99"}}>
+  //       <Right style={{alignSelf:"flex-end", marginBottom: 5, color: '#fff'}}><TouchableOpacity ><Text style={{color: '#fff'}}>"HEY</Text></TouchableOpacity></Right>
+  //   </Header> ),
+  //   }
+  // };
+
+  static navigationOptions = {
+    header: null
+  }
   toggleRoute (e) {
-    this.setState({route: ( this.state.route === 'Login') ? 'signUp' : 'Login'});
+    this.setState({route: ( this.state.route === 'Login') ? 'Sign Up' : 'Login'});
         e.preventDefault();
+  }
+  selectAction(e) {
+    if (this.state.route === 'Login') {
+      this.userLogin(e)
+    } else if (this.state.route === 'Sign Up') {
+      this.userSignup(e)
+    }
   }
   userLogin (e) {
+    const {navigate} =this.props.navigation
+      console.log(this)
         this.props.actionLogin.login({'email': this.state.username, 
-                                      'password': this.state.password});
-        e.preventDefault();
+                                      'password': this.state.password})
+        navigate('Market')
+        e.preventDefault(e);
   }
   userSignup (e) {
+    console.log("Signup", this)
         this.props.actionLogin.signup({'firstName': this.state.firstName, 
                                       'lastName': this.state.lastName,
                                       'email': this.state.username, 
                                       'password': this.state.password, 
                                       'passwordRepeat': this.state.passwordRepeat});
-        e.preventDefault();
+        e.preventDefault(e);
   }
   render() {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
     return(
       // <ScrollView style={styles.scrollContainer}>
-      <View style={styles.container}>
+      <Container>
         <Header style={{backgroundColor: "#21CE99"}}>
-          <Right style={{alignSelf:"flex-end", marginBottom: 5, color: '#fff'}}><TouchableOpacity onPress={(e) => this.toggleRoute(e).bind(this)}><Text style={{color: '#fff'}}>{this.state.route}</Text></TouchableOpacity></Right>
+          <Right style={{alignSelf:"flex-end", marginBottom: 5, color: '#fff'}}><TouchableOpacity onPress={(e) => this.toggleRoute(e)}><Text style={{color: '#fff'}}>{( this.state.route === 'Login') ? 'Sign Up' : 'Login'}</Text></TouchableOpacity></Right>
         </Header>
+      <View style={styles.container}>
         <Text style={{fontSize: 27}}>{this.state.route}</Text>
         {alt === "Login" ? (
           <TextInput 
@@ -105,15 +120,11 @@ class userForm extends Component {
             value={this.state.passwordRepeat} 
             onChangeText={(text) => this.setState({ passwordRepeat: text })} />
           ) : (null)}
-        <View style={{margin: 7}}/>
-        {alt === "SignUp" ? ( 
-          <Button onPress={(e) => this.userLogin(e)} title={this.state.route}></Button>
-        ) : (
-          <Button onPress={(e) => this.userSignup(e)} title={this.state.route}/>
-        )}
-        <Text style={{fontSize: 16, color: 'blue'}} onPress={(e) => this.toggleRoute(e).bind(this)}>{alt}</Text>
-        </View>
-      // </ScrollView>
+          <Button onPress={(e) => this.selectAction(e)} title={this.state.route} iconLeft light style={{backgroundColor: "#fff", borderWidth:  "2px", borderColor: "#21CE99", paddingLeft: 8, paddingRight: 8, alignSelf: 'center', marginTop: 5}} >
+            <Text style={{color: "#21CE99"}}>{this.state.route}</Text>
+          </Button>
+          </View>
+        </Container>
     )
   }
 }

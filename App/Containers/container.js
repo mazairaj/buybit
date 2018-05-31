@@ -11,16 +11,18 @@ import configureStore from '../store';
 
 import MarketPlace  from '../Components/marketplace'
 import userForm from '../Components/Form/loginForm'
-
+import ItemPage from '../Components/itemPage'
 const store = configureStore();
 const RootStack = createStackNavigator(
   {
     Login: userForm,
     Market: MarketPlace,
+    ItemPage: ItemPage
   },
   {
-    initialRouteName: 'Market',
-  }
+    initialRouteName: 'Login',
+  },
+  { headerMode: 'screen' }
 );
 export default class Root extends Component {
   render() {

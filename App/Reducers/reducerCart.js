@@ -1,5 +1,5 @@
-export function reducerItem(state =
-  {cart: null}, action) {
+export function reducerCart(state =
+  {cart: []}, action) {
     switch (action.type) {
     case 'ADD_CART_ITEM': 
        return { 

@@ -15,6 +15,7 @@ export function login(userObject) {
             })
 		}).then((response) => response.json())
 		    .then((responseJson) => {
+                console.log(responseJson)
 		    	var userObject = Object.assign({}, responseJson);
                 dispatch(userLogin(userObject));
 		}).catch((err) => {
@@ -33,14 +34,14 @@ export function signup(userObject) {
     		body: JSON.stringify({
     			firstName: userObject.firstName,
     			lastName: userObject.lastName,
-		        email: email,
-		        password: password,
-		        passwordRepeat: passwordRepeat
+		        email: userObject.email,
+		        password: userObject.password,
+		        passwordRepeat: userObject.passwordRepeat
 		    })
         }).then((response) => response.json())
 		    .then((responseJson) => {
 		    	var userObject = Object.assign({}, responseJson);
-                dispatch(signup(userObject));
+                dispatch(userLogin(userObject));
 		}).catch((err) => {
                 dispatch(errors(err))
         });
@@ -97,6 +98,6 @@ function errors(err) {
 function userLogin(userObject) {
     return {
         type: 'LOGIN',
-        userObject
+        userObject: userObject
     };
 }

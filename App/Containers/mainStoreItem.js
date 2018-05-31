@@ -1,14 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
-import { Image, View, StyleSheet, Dimensions } from 'react-native';
+import { Image, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base'
 import { Font, AppLoading } from "expo";
 
+import { bindActionCreators } from 'redux';
+import * as storeActions from '../Actions/actionItem';
+import * as loginActions from '../Actions/actionLogin';
+import * as cartActions from '../Actions/actionCart';
 
+import { connect } from 'react-redux';
 
 var {height, width} = Dimensions.get('window');
 
-export default class MainStoreCard extends Component {
+class MainStoreCard extends Component {
     constructor(props){
         super(props);
         // this.returnEven = this.returnEven.bind(this)
@@ -25,6 +30,11 @@ export default class MainStoreCard extends Component {
     });
     this.setState({ loading: false });
   }
+  addItemToCart() {
+    var {cartActions} = this.props
+    cartActions.addItemCart(this.props.item)
+    console.log(this)
+  }
     render() {
       var {item} = this.props
       console.log("ITEM", item)
@@ -37,7 +47,7 @@ export default class MainStoreCard extends Component {
             <Card>
             <CardItem>
                 <Left>
-                  <Thumbnail source={{uri: 'https://scontent.fmia1-2.fna.fbcdn.net/v/t1.0-9/12439023_10206114395882164_3964247135252667796_n.jpg?_nc_cat=0&oh=05a55a2f207aa5a6feaf1b40ce862cee&oe=5B7BF562'}} />
+                  <Thumbnail source={{uri: 'https://www.whittierfirstday.org/wp-content/uploads/default-user-image-e1501670968910.png'}} />
                   <Body>
                     <Text>User Name</Text>
                     <Text note>Tagline</Text>
@@ -50,16 +60,20 @@ export default class MainStoreCard extends Component {
                 </Right>
               </CardItem>
               <CardItem>
-                <Image source={{uri: `${item.itemImage}`}} style={{height: 200, width: null, flex: 1}}/>
-                <View style={{flex: 1}}>
-                  <View style={styles.itemInformation}>
-                    <Text>${item.itemPriceUSD}</Text>
-                    <Text>Price in ETH</Text>
-                  </View >
-                  <View style={styles.itemInformation}>
-                    <Text note>"100% on rotten tomatoes"</Text>
+                <TouchableOpacity style={{flex: 1}} onPress={(e) => this.props.navigation.navigate("ItemPage", {item: item})}>
+                  <Image source={{uri: `${item.itemImage}`}} style={{height: 200, width: null, flex: 1}}/>
+                </TouchableOpacity>
+                <TouchableOpacity style={{flex: 1}} onPress={(e) => this.props.navigation.navigate("ItemPage", {item: item})}>
+                  <View style={{flex: 1}}>
+                    <View style={styles.itemInformation}>
+                      <Text>${item.itemPriceUSD}</Text>
+                      <Text>Price in ETH</Text>
+                    </View >
+                    <View style={styles.itemInformation}>
+                      <Text note>"100% on rotten tomatoes"</Text>
+                    </View>
                   </View>
-                </View>
+                </TouchableOpacity>
               </CardItem>
               <CardItem>
                 <Left>
@@ -67,7 +81,7 @@ export default class MainStoreCard extends Component {
                     <Text>12 Views</Text>
                 </Left>
                 <Right>
-                  <Button transparent>
+                  <Button transparent onPress={(e) => this.addItemToCart()}>
                     <Icon active name="cart" />
                     <Text>Add To Cart</Text>
                   </Button>
@@ -78,6 +92,23 @@ export default class MainStoreCard extends Component {
       }
     }
 }
+function mapStateToProps(state) {
+	return {
+    profile: state.get('userProfile'),
+    store: state.get('store'),
+    cart: state.get('cart')
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+    itemActions: bindActionCreators(storeActions, dispatch),
+    loginActions: bindActionCreators(loginActions, dispatch),
+    cartActions: bindActionCreators(cartActions, dispatch)
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainStoreCard) 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
