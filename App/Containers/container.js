@@ -12,15 +12,19 @@ import configureStore from '../store';
 import MarketPlace  from '../Components/marketplace'
 import userForm from '../Components/Form/loginForm'
 import ItemPage from '../Components/itemPage'
+import cartPage from '../Components/cartPage'
+
+
 const store = configureStore();
 const RootStack = createStackNavigator(
   {
     Login: userForm,
     Market: MarketPlace,
-    ItemPage: ItemPage
+    ItemPage: ItemPage,
+    cartPage: cartPage
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'cartPage',
   },
   { headerMode: 'screen' }
 );

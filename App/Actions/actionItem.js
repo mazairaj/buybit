@@ -6,9 +6,7 @@ export function storeLookUp() {
     return dispatch => {
         fetch(Environment.SERVER + 'storeLookUp', {
             method: 'GET',
-            headers: {
-                'Content-Type' : 'application/json'
-            }          
+            body: null        
         }).then((response) => response.json())
             .then((responseJson) => {
                 if(responseJson){

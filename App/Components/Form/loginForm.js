@@ -1,12 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import {StyleSheet,
-Text, View, Image, TouchableOpacity, TextInput, ActionSheetIOS, ScrollView } from 'react-native';
+Text, View, Image, ImageBackground, TouchableOpacity, TextInput, ActionSheetIOS, ScrollView } from 'react-native';
 import {Button, Switch, Header, Right, Container, Icon} from 'native-base';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as actionLogin from '../../Actions/actionLogin';
+
+const backIcon = require("../../../Assets/signup/back.png");
+const personIcon = require("../../../Assets/login/login1_person.png");
+const lockIcon = require("../../../Assets/login/login1_lock.png");
+const emailIcon = require("../../../Assets/signup/signup_email.png");
+const logo = require("../../../Assets/BuyBitLogo.png")
+
 
 class userForm extends Component {
 
@@ -21,39 +28,19 @@ class userForm extends Component {
         passwordRepeat: '',
     };
   }
+  static navigationOptions = {
+    header: null
+  }
   componentWillMount(){
     const {setParams} = this.props.navigation;
     setParams({state: "Login"});
   }
-
-  // static navigationOptions = ({ navigation }) => {
-  //   const params = navigation.state.params || {};
-  //   console.log("HEY NOW", this)
-  //   return {
-  //   header: (
-  //     <Header style={{backgroundColor: "#21CE99"}}>
-  //       <Right style={{alignSelf:"flex-end", marginBottom: 5, color: '#fff'}}><TouchableOpacity ><Text style={{color: '#fff'}}>"HEY</Text></TouchableOpacity></Right>
-  //   </Header> ),
-  //   }
-  // };
-
-  static navigationOptions = {
-    header: null
-  }
   toggleRoute (e) {
-    this.setState({route: ( this.state.route === 'Login') ? 'Sign Up' : 'Login'});
+    this.setState({route: ( this.state.route === 'Login') ? 'SignUp' : 'Login'});
         e.preventDefault();
-  }
-  selectAction(e) {
-    if (this.state.route === 'Login') {
-      this.userLogin(e)
-    } else if (this.state.route === 'Sign Up') {
-      this.userSignup(e)
-    }
   }
   userLogin (e) {
     const {navigate} =this.props.navigation
-      console.log(this)
         this.props.actionLogin.login({'email': this.state.username, 
                                       'password': this.state.password})
         navigate('Market')
@@ -68,82 +55,359 @@ class userForm extends Component {
                                       'passwordRepeat': this.state.passwordRepeat});
         e.preventDefault(e);
   }
+  forgotPassword(e){
+      // Not yet finish
+      e.preventDefault(e);
+  }
+  loginForm(){
+    return(
+          <View style={loginStyles.container}>
+              <View style={loginStyles.markWrap}>
+                <Image source={logo} style={loginStyles.mark} resizeMode="contain" />
+              </View>
+            <View style={loginStyles.wrapper}>
+                <View style={loginStyles.inputWrap}>
+                  <View style={loginStyles.iconWrap}>
+                    <Image source={emailIcon} style={loginStyles.icon} resizeMode="contain" />
+                  </View>
+                  <TextInput 
+                    placeholder="Username" 
+                    placeholderTextColor="#130f30"
+                    autoCorrect={false} 
+                    autoCapitalize='none'
+                    onChangeText={(text) => this.setState({ username: text })}
+                    style={loginStyles.input} />
+                </View>
+                <View style={loginStyles.inputWrap}>
+                  <View style={loginStyles.iconWrap}>
+                    <Image source={lockIcon} style={loginStyles.icon} resizeMode="contain" />
+                  </View>
+                  <TextInput 
+                    placeholderTextColor="#130f30"
+                    placeholder="Password" 
+                    autoCapitalize='none'
+                    autoCorrect={false} 
+                    style={loginStyles.input}
+                    onChangeText={(text) => this.setState({ password: text })}
+                    secureTextEntry />
+                </View>
+                <TouchableOpacity activeOpacity={.5} onPress={(e) => this.forgotPassword(e)}>
+                  <View>
+                    <Text style={loginStyles.forgotPasswordText}>Forgot Password?</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={.5} onPress={(e) => this.userLogin(e)}>
+                  <View style={loginStyles.button}>
+                    <Text style={loginStyles.buttonText}>Sign In</Text>
+                  </View>
+                </TouchableOpacity>
+            </View>
+            <View style={loginStyles.container}>
+              <View style={loginStyles.signupWrap}>
+                <Text style={loginStyles.accountText}>Dont have an account?</Text>
+                <TouchableOpacity activeOpacity={.5} onPress={(e) => this.toggleRoute(e)} title={this.state.route}>
+                  <View>
+                    <Text style={loginStyles.signupLinkText}>Sign Up</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+        </View>
+      )
+  }
+  signupForm(){
+    return(       
+        <View style={signupStyles.container}>
+          <View style={signupStyles.headerContainer}>
+            <View style={signupStyles.headerIconView}>
+              <TouchableOpacity style={signupStyles.headerBackButtonView} activeOpacity={.5} onPress={(e) => this.toggleRoute(e)} title={this.state.route} >
+                <Image 
+                  source={backIcon} 
+                  style={signupStyles.backButtonIcon} 
+                  resizeMode="contain"/>
+              </TouchableOpacity>
+            </View>
+            <View style={signupStyles.headerTitleView}>
+              <Text style={signupStyles.titleViewText}>Sign Up</Text>
+            </View>
+          </View>
+          <View style={signupStyles.inputsContainer}>
+            <View style={signupStyles.inputContainer}>
+              <View style={signupStyles.iconContainer}>
+                <Image 
+                  source={personIcon}
+                  style={signupStyles.inputIcon}
+                  resizeMode="contain"/>
+              </View>
+              <TextInput
+                style={[signupStyles.input, signupStyles.whiteFont]}
+                placeholder="Last Name"
+                autoCorrect={false} 
+                placeholderTextColor="#130f30"
+                underlineColorAndroid='transparent'
+                onChangeText={(text) => this.setState({ lastName: text })}/>
+              <TextInput
+                style={[signupStyles.input, signupStyles.whiteFont]}
+                placeholder="First Name"
+                autoCorrect={false} 
+                placeholderTextColor="#130f30"
+                underlineColorAndroid='transparent'
+                onChangeText={(text) => this.setState({ firstName: text })}/>  
+            </View>
+
+            <View style={signupStyles.inputContainer}>
+              <View style={signupStyles.iconContainer}>
+                <Image 
+                  source={emailIcon} 
+                  style={signupStyles.inputIcon} 
+                  resizeMode="contain"/>
+              </View>
+              <TextInput
+                style={[signupStyles.input, signupStyles.whiteFont]}
+                placeholder="Email"
+                placeholderTextColor="#130f30"
+                autoCorrect={false} 
+                autoCapitalize='none'
+                underlineColorAndroid='transparent'
+                onChangeText={(text) => this.setState({ username: text })}  />
+            </View>
+
+            <View style={signupStyles.inputContainer}>
+              <View style={signupStyles.iconContainer}>
+                <Image 
+                  source={lockIcon} 
+                  style={signupStyles.inputIcon} 
+                  resizeMode="contain"/>
+              </View>
+              <TextInput
+                secureTextEntry={true}
+                style={[signupStyles.input, signupStyles.whiteFont]}
+                placeholder="Password"
+                autoCapitalize='none'
+                autoCorrect={false} 
+                placeholderTextColor="#130f30"
+                underlineColorAndroid='transparent'
+                onChangeText={(text) => this.setState({ password: text })} />
+            </View>
+
+            <View style={signupStyles.inputContainer}>
+              <View style={signupStyles.iconContainer}>
+                <Image 
+                  source={lockIcon} 
+                  style={signupStyles.inputIcon} 
+                  resizeMode="contain" />
+              </View>
+              <TextInput
+                secureTextEntry={true}
+                style={[signupStyles.input, signupStyles.whiteFont]}
+                autoCorrect={false} 
+                autoCapitalize='none'
+                placeholder="Repeat Password"
+                placeholderTextColor="#130f30"
+                underlineColorAndroid='transparent'
+                onChangeText={(text) => this.setState({ passwordRepeat: text })}/>
+            </View>
+
+          </View>
+
+          <View style={signupStyles.footerContainer}>
+            <TouchableOpacity activeOpacity={.5} onPress={(e) => this.userSignup(e)}>
+              <View style={signupStyles.signup}>
+                <Text style={signupStyles.whiteFont}>Join Us</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity activeOpacity={.5} onPress={(e) => this.toggleRoute(e)} title={this.state.route}>
+              <View style={signupStyles.signin}>
+                <Text style={signupStyles.blackFont}>Already have an account?<Text style={signupStyles.blackFont}> Sign In</Text></Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+      </View>
+      )
+  }
+  displayError(){
+    //not yet completed
+    return(
+      <Text> this is the error !</Text>
+      )
+  }
   render() {
     let alt = (this.state.route === 'Login') ? 'SignUp' : 'Login';
     return(
-      // <ScrollView style={styles.scrollContainer}>
-      <Container>
-        <Header style={{backgroundColor: "#21CE99"}}>
-          <Right style={{alignSelf:"flex-end", marginBottom: 5, color: '#fff'}}><TouchableOpacity onPress={(e) => this.toggleRoute(e)}><Text style={{color: '#fff'}}>{( this.state.route === 'Login') ? 'Sign Up' : 'Login'}</Text></TouchableOpacity></Right>
-        </Header>
-      <View style={styles.container}>
-        <Text style={{fontSize: 27}}>{this.state.route}</Text>
-        {alt === "Login" ? (
-          <TextInput 
-            placeholder='First Name'
-            autoCapitalize='none'
-            autoCorrect={false} 
-            autoFocus={true} 
-            value={this.state.firstName} 
-            onChangeText={(text) => this.setState({ firstName: text })} />
-          ) : (null)}
-        {alt === "Login" ? (
-          <TextInput 
-            placeholder='Last Name'
-            autoCapitalize='none'
-            autoCorrect={false} 
-            autoFocus={true} 
-            value={this.state.lastName} 
-            onChangeText={(text) => this.setState({ lastName: text })} />
-        ) : (null)}
-        <TextInput 
-            placeholder='Email/Username'
-            autoCapitalize='none'
-            autoCorrect={false} 
-            autoFocus={true} 
-            keyboardType='email-address'
-            value={this.state.username} 
-            onChangeText={(text) => this.setState({ username: text })} />
-        <TextInput 
-            placeholder='Password'
-            autoCapitalize='none'
-            autoCorrect={false} 
-            secureTextEntry={true} 
-            value={this.state.password} 
-            onChangeText={(text) => this.setState({ password: text })} />
-        {alt === "Login" ? (
-          <TextInput 
-            placeholder='Repeat Password'
-            autoCapitalize='none'
-            autoCorrect={false} 
-            secureTextEntry={true} 
-            value={this.state.passwordRepeat} 
-            onChangeText={(text) => this.setState({ passwordRepeat: text })} />
-          ) : (null)}
-          <Button onPress={(e) => this.selectAction(e)} title={this.state.route} iconLeft light style={{backgroundColor: "#fff", borderWidth:  "2px", borderColor: "#21CE99", paddingLeft: 8, paddingRight: 8, alignSelf: 'center', marginTop: 5}} >
-            <Text style={{color: "#21CE99"}}>{this.state.route}</Text>
-          </Button>
-          </View>
-        </Container>
+      <View style={{flex: 1}}>
+        { alt === "SignUp" ? ( this.loginForm.apply(this)
+      ) : ( this.signupForm.apply(this) )}
+      </View>
     )
   }
 }
 
-const styles = StyleSheet.create({
-  scrollContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    // backgroundColor: '#21CE99',
-  },
+const loginStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    // backgroundColor: '#21CE99',
+    backgroundColor: "white"
+  },
+  markWrap: {
+    flex: 1,
+    marginTop: 50,
+    paddingVertical: 30,
+  },
+  mark: {
+    flex: 1
+  },
+  backgroundStyle: {
+    flex: 1,
+  },
+  wrapper: {
+    paddingVertical: 30,
+  },
+  inputWrap: {
+    flexDirection: "row",
+    marginVertical: 10,
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: "#CCC"
+  },
+  iconWrap: {
+    paddingHorizontal: 7,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    height: 20,
+    width: 20,
+  },
+  input: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  button: {
+    backgroundColor: "#4ca950",
+    paddingVertical: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 30,
+  },
+  buttonText: {
+    color: "#FFF",
+    fontSize: 18,
+  },
+  forgotPasswordText: {
+    color: "#130f30",
+    backgroundColor: "transparent",
+    textAlign: "right",
+    paddingRight: 15,
+  },
+  signupWrap: {
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  accountText: {
+    color: "#130f30"
+  },
+  signupLinkText: {
+    color: "#130f30",
+    marginLeft: 5,
+  },
+  signup: {
+    backgroundColor: '#FF3366',
+    paddingVertical: 25,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 15,
   },
-
+  signin: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
 });
+
+const signupStyles = StyleSheet.create({
+ container: {
+    flex: 1,
+  },
+  headerContainer: {
+    flex: 1,
+    marginTop: 50
+  },
+  inputsContainer: {
+    flex: 3,
+    marginTop: 20,
+  },
+  footerContainer: {
+    flex: 1
+  },
+  headerIconView: {
+    marginLeft: 10,
+    backgroundColor: 'transparent'
+  },
+  headerBackButtonView: {
+    width: 25,
+    height: 25,
+  },
+  backButtonIcon: {
+    width: 25,
+    height: 25
+  },
+  headerTitleView: {
+    backgroundColor: 'transparent',
+    marginTop: 25,
+    marginLeft: 25,
+  },
+  titleViewText: {
+    fontSize: 35,
+    color: '#130f30',
+  },
+  inputs: {
+    paddingVertical: 20,
+  },
+  inputContainer: {
+    borderWidth: 1,
+    borderBottomColor: '#CCC',
+    borderColor: 'transparent',
+    flexDirection: 'row',
+    height: 75,
+  },
+  iconContainer: {
+    paddingHorizontal: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inputIcon: {
+    width: 20,
+    height: 20,
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+  },
+  signup: {
+    backgroundColor: '#F2BA2E',
+    paddingVertical: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+  },
+  signin: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  greyFont: {
+    color: '#D8D8D8'
+  },
+  whiteFont: {
+    color: '#FFF'
+  },
+  blackFont: {
+    color: '#130f30'
+  }
+})
+
 
 function mapStateToProps(state) {
   return {

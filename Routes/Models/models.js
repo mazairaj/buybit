@@ -23,6 +23,7 @@ var userSchema = new mongoose.Schema({
   },
   password: { type: String },
   location: { type: String, default: "Eastern"},
+  address: [type: String, default: null],
   mySellingItem: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
   myPurchaseItem: [{type: mongoose.Schema.Types.ObjectId, ref: 'Item'}],
   ethWallet: { type: String},

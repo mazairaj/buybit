@@ -22,7 +22,6 @@ class MainStoreCard extends Component {
           loading: true
         };
     }
-
   async componentWillMount() {
     await Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),

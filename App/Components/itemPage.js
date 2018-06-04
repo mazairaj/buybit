@@ -13,7 +13,7 @@ import MainStoreCard from '../Containers/mainStoreItem.js'
 
 var {height, width} = Dimensions.get('window');
 
-class ItemPage extends Component {
+class itemPage extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -23,7 +23,6 @@ class ItemPage extends Component {
   componentDidMount() {
     var {itemActions} = this.props
     itemActions.storeLookUp()
-
   }
   conditionalList(items) {
     if (items.length > 0 ) {
@@ -67,7 +66,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemPage) 
+export default connect(mapStateToProps, mapDispatchToProps)(itemPage) 
 // export { MarketPlace }
 
 const styles = StyleSheet.create({

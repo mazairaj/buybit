@@ -11,7 +11,7 @@ router.get('/storeLookUp', function(req,res){
 
     Item.find().limit(20).exec(function(err, items){
         if(err) {return err}
-
+        console.log("I am in the backend")
         res.send(items);
         return items;
     });

@@ -24,7 +24,7 @@ class MarketPlace extends Component {
       </Button>
     </Left>
     <Right style={{alignSelf:"flex-end",}}>
-      <Button transparent>
+      <Button activeOpacity={.5} onPress={(e) => this.props.navigation.navigate("ItemPage", {item: item})}>
         <Icon active name="cart" style={{color: "black"}}/>
       </Button>
       <Button transparent>
@@ -37,13 +37,11 @@ class MarketPlace extends Component {
     super(props);
     this.state = {
       loading: true
-
     };
   }
   componentDidMount() {
     var {itemActions} = this.props
     itemActions.storeLookUp()
-
   }
   async componentWillMount() {
     await Font.loadAsync({
@@ -70,6 +68,7 @@ class MarketPlace extends Component {
     }
   }
   render() {
+    console.log("this is this.prop:", this.props)
     console.log(this.props.store)
     var storeItems = !!this.props.store.storeItems ? this.props.store.storeItems: [];
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});

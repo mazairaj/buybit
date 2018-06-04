@@ -10,11 +10,13 @@ router.post('/login', function(req, res, next) {
     if (err) { return next(err); }
     if (!user) { 
         console.log("no user")
+        res.send(null)
         return null
     }
-    
+    console.log("I am here")
     req.logIn(user, function(err) {
       if (err) { return next(err); }
+      console.log(user)
       res.send(user)
       return null;
     });

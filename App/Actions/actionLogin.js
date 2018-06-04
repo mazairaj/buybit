@@ -15,7 +15,7 @@ export function login(userObject) {
             })
 		}).then((response) => response.json())
 		    .then((responseJson) => {
-                console.log(responseJson)
+                console.log("login: ",responseJson)
 		    	var userObject = Object.assign({}, responseJson);
                 dispatch(userLogin(userObject));
 		}).catch((err) => {
